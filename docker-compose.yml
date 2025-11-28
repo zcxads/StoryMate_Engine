@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: storymate-engine
     ports:
-      - "8001:8000"
+      - "14056:14056"
     environment:
       - APP_NAME=StoryMate Engine
       - APP_VERSION=1.0.0
@@ -36,7 +36,7 @@ services:
     networks:
       - storymate-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:14056/health"]
       interval: 120s  # 2분마다 체크
       timeout: 600s  # 10분 타임아웃
       retries: 3

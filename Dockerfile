@@ -58,9 +58,9 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
 RUN google-chrome --version
 
 # requirements 파일 복사 및 Python 패키지 설치 (의존성 해결 최적화)
-COPY requirements-dev.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements-dev.txt && \
+    pip install --no-cache-dir -r requirements.txt && \
     # 불필요한 파일 정리로 이미지 크기 감소
     find /usr/local/lib/python3.11/site-packages -type d -name "tests" -exec rm -rf {} + 2>/dev/null || true && \
     find /usr/local/lib/python3.11/site-packages -type d -name "test" -exec rm -rf {} + 2>/dev/null || true && \
@@ -78,10 +78,10 @@ ENV PYTHONUNBUFFERED=1
 ENV DISPLAY=:99
 
 # 포트 노출
-EXPOSE 8000
+EXPOSE 14056
 
 # Health check
 HEALTHCHECK --interval=120s --timeout=600s --start-period=120s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:14056/health || exit 1
 
 CMD ["python", "-m", "app.main"]

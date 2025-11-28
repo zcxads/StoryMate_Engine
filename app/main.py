@@ -199,7 +199,7 @@ if __name__ == "__main__":
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=8000,
+        port=14056,
         reload=settings.debug,
         log_level="info",
         # 🚀 타임아웃 설정 대폭 증가 (무제한에 가깝게)
