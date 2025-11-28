@@ -1,0 +1,1 @@
+# Finger detection prompts module

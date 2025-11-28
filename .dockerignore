@@ -1,0 +1,56 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.coverage
+.pytest_cache
+*.egg-info/
+.venv
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+logs/
+
+# 임시 파일
+*.tmp
+*.temp
+temp/
+
+# 출력 파일들 (볼륨으로 마운트할 예정)
+tts_output/*.mp3
+tts_output/*.wav
+
+# 환경 변수 파일 (보안상 제외, docker-compose에서 처리)
+# .env
+
+# 개발용 파일들
+test/
+tests/
+*.md
+LICENSE

@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  storymate-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: storymate-engine
+    ports:
+      - "8001:8000"
+    environment:
+      - APP_NAME=StoryMate Engine
+      - APP_VERSION=1.0.0
+      - DEBUG=True
+      - OUTPUT_DIR=tts_output
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL}
+      # 🚀 타임아웃 설정 대폭 증가 (무제한에 가깝게)
+      - UVICORN_TIMEOUT_KEEP_ALIVE=0
+      - UVICORN_GRACEFUL_TIMEOUT=0
+      - LLM_REQUEST_TIMEOUT=0  # 0으로 설정하여 무제한 대기
+      # 📊 LangSmith 설정
+      - LANGCHAIN_TRACING_V2=${LANGCHAIN_TRACING_V2:-true}
+      - LANGCHAIN_ENDPOINT=${LANGCHAIN_ENDPOINT:-https://api.smith.langchain.com}
+      - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
+      - LANGCHAIN_PROJECT=${LANGCHAIN_PROJECT}
+    volumes:
+      # TTS 출력 파일을 호스트에 저장 (권한 수정)
+      - ./tts_output:/app/tts_output:rw
+      # 로그 디렉토리 (선택사항)
+      - ./logs:/app/logs:rw
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - storymate-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 120s  # 2분마다 체크
+      timeout: 600s  # 10분 타임아웃
+      retries: 3
+      start_period: 120s  # 시작 대기 시간 증가
+    # 권한 문제 해결을 위한 추가 설정
+    user: "0:0"  # root 권한으로 실행
+
+networks:
+  storymate-network:
+    driver: bridge
+
+volumes:
+  tts_output:
+    driver: local

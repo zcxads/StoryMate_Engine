@@ -1,0 +1,25 @@
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+openai==1.57.0
+pydantic==2.9.0
+pydantic-settings==2.6.0
+python-multipart==0.0.18
+aiofiles==24.1.0
+python-dotenv==1.0.1
+anyio==4.6.0
+websockets==12.0
+httpx==0.24.1
+langgraph>=0.0.26
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-google-genai
+langchain-anthropic
+langchain-community
+google-generativeai
+boto3==1.35.0
+murf==2.0.2
+
+# Web Crawler dependencies
+selenium==4.26.1
+beautifulsoup4==4.12.3
+webdriver-manager==4.0.2

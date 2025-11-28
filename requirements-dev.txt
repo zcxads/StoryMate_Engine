@@ -1,0 +1,69 @@
+# Core FastAPI & Web Framework
+fastapi==0.115.0
+uvicorn==0.32.0
+python-multipart==0.0.18
+aiofiles==24.1.0
+python-dotenv==1.1.1
+pydantic==2.11.9
+pydantic-settings==2.6.0
+
+# AI & LLM
+openai==1.109.1
+anthropic==0.49.0
+google-generativeai==0.8.5
+google-genai==1.30.0
+langchain==0.3.27
+langchain-anthropic==0.3.12
+langchain-community==0.3.27
+langchain-core==0.3.74
+langchain-google-genai==2.0.10
+langchain-openai==0.2.13
+langchain-text-splitters==0.3.9
+langgraph==0.2.35
+langgraph-checkpoint==2.1.1
+langsmith==0.4.14
+tiktoken==0.11.0
+
+# Web Scraping & Crawling
+selenium==4.26.1
+beautifulsoup4==4.12.3
+webdriver-manager==4.0.2
+
+# Cloud Storage (NCP/AWS S3)
+boto3==1.35.0
+
+# Audio Processing
+pydub==0.25.1  # ffmpeg 필요
+murf==2.0.2
+
+# PDF Processing
+PyPDF2==3.0.1
+PyMuPDF==1.26.4
+
+# Image Processing & OCR
+pillow==11.3.0
+
+# NLP & Text Processing (crawler_analysis용)
+stopwordsiso==0.6.1  # 다국어 불용어
+keybert==0.8.5  # 키워드 추출
+kiwipiepy==0.18.1  # 한국어 형태소 분석
+fugashi[unidic-lite]==1.3.2  # 일본어 형태소 분석
+nltk==3.9.1  # 영어 품사 태깅
+jieba==0.42.1  # 중국어 분사
+wordcloud==1.9.3
+
+# Data & Visualization (visualization 서비스용)
+pandas==2.3.2
+matplotlib==3.10.6
+seaborn>=0.12.0
+plotly>=5.17.0
+kaleido>=0.2.1  # plotly 이미지 저장용
+
+# HTTP & Networking
+httpx==0.28.1
+aiohttp==3.12.15
+websockets==15.0.1
+requests==2.32.5
+
+# Utilities
+PyYAML==6.0.2
