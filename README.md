@@ -5,11 +5,11 @@
 **StoryMate Engine**은 AI 기반 교육 콘텐츠 생성 플랫폼입니다. 다양한 AI 모델(OpenAI GPT, Google Gemini, Suno AI)을 활용하여 음성 합성, 텍스트 처리, 교육 콘텐츠 생성, 이미지 분석 등 종합적인 멀티모달 AI 서비스를 제공합니다.
 
 ### 역할
-FastAPI 기반 백엔드 API 서버로, 멀티 LLM 통합 및 교육 콘텐츠 자동 생성을 제공하며 WebSocket/SSE 기반 실시간 처리를 지원합니다.
+FastAPI 기반 API 서버로, 멀티 LLM 통합 및 교육 콘텐츠 자동 생성을 제공하며 WebSocket/SSE 기반 실시간 처리를 지원합니다.
 
 ### 기술 스택
 - **Backend**: Python, FastAPI, Uvicorn
-- **AI/ML**: LangChain, LangGraph, OpenAI (GPT-4o, GPT-5, TTS), Google Gemini (2.0/2.5)
+- **AI/ML**: LangChain, LangGraph, OpenAI (GPT-4o, TTS), Google Gemini (2.5/3.0)
 - **Data Processing**: Selenium, BeautifulSoup, httpx
 - **Infrastructure**: Docker, NCP Object Storage, WebSocket/SSE
 
