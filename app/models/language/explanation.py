@@ -55,4 +55,35 @@ class ExplanationResponse(BaseModel):
 class SupportedModelsResponse(BaseModel):
     supported_models: List[str] = Field(description="지원되는 모델 목록")
     default_model: str = Field(description="기본 모델")
-    total_count: int = Field(description="총 모델 수") 
+    total_count: int = Field(description="총 모델 수")
+
+
+class SimilarQuizRequest(BaseModel):
+    """유사 문제 생성 요청 모델 (이미지 기반)"""
+    model: str = Field(description="Language model to use for processing", default=settings.llm_advanced_analysis_model)
+    problem: str = Field(description="Base64 encoded image of the problem")
+    language: str = Field(description="Response language (ko, en, ja, zh)", default=settings.language_code[0])
+    force_model: Optional[bool] = Field(default=False, description="강제로 지정한 모델만 사용하고 fallback 모델을 사용하지 않음")
+
+    @validator('model')
+    def validate_model(cls, v):
+        if v not in SUPPORTED_EXPLANATION_MODELS:
+            raise ValueError(f"지원되지 않는 모델입니다. 지원 모델: {', '.join(SUPPORTED_EXPLANATION_MODELS)}")
+        return v
+
+    @validator('language')
+    def validate_language(cls, v):
+        if v not in settings.language_code:
+            raise ValueError(f"지원되지 않는 언어입니다. 지원 언어: {', '.join(settings.language_code)}")
+        return v
+
+    model_config = {"protected_namespaces": ()}
+
+
+class SimilarQuizResponse(BaseModel):
+    """유사 문제 생성 응답 모델"""
+    question: str = Field(description="생성된 유사 문제")
+    answer: str = Field(description="정답")
+    options: List[str] = Field(description="선택지 목록 (객관식인 경우), 주관식인 경우 빈 리스트")
+    explanation: str = Field(description="문제 해설")
+    execution_time: Optional[str] = Field(None, description="API execution time") 

@@ -1,11 +1,16 @@
 from fastapi import APIRouter, HTTPException, status, Request
 from app.models.language.explanation import (
-    ExplanationRequest, 
+    ExplanationRequest,
     ExplanationResponse,
+    SimilarQuizRequest,
+    SimilarQuizResponse,
     SupportedModelsResponse,
     SUPPORTED_EXPLANATION_MODELS
 )
-from app.services.language.workflow.explanation import process_explanation_workflow_wrapper
+from app.services.language.workflow.explanation import (
+    process_explanation_workflow_wrapper,
+    process_similar_quiz_workflow_wrapper
+)
 from app.core.config import settings
 import time
 
@@ -26,7 +31,7 @@ async def get_supported_models() -> SupportedModelsResponse:
     )
 
 @router.post("/", response_model=ExplanationResponse)
-async def solve_problem(request: ExplanationRequest, raw_request: Request):
+async def solve_problem(request: ExplanationRequest):
     """문제 이미지를 분석하여 해답과 해설을 제공"""
     start_time = time.time()
 
@@ -44,6 +49,28 @@ async def solve_problem(request: ExplanationRequest, raw_request: Request):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e)
         )
+
+
+@router.post("/similar", response_model=SimilarQuizResponse)
+async def generate_similar_quiz(request: SimilarQuizRequest):
+    """이미지 기반 유사 문제 생성"""
+    start_time = time.time()
+
+    try:
+        result = await process_similar_quiz_workflow_wrapper(request)
+
+        # 실행 시간 추가
+        execution_time = f"{time.time() - start_time:.2f}s"
+        result["execution_time"] = execution_time
+
+        return result
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
 
 @router.get("/health")
 async def explanation_health_check():
