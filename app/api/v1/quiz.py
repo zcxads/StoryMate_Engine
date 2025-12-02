@@ -2,15 +2,13 @@ from fastapi import APIRouter, HTTPException, status, Request
 from app.models.language.quiz import (
     QuizRequest,
     QuizResponse,
-    LegacyQuizRequest,
-    LegacyQuizResponse,
     SupportedModelsResponse,
     SupportedProblemTypesResponse,
     SUPPORTED_QUIZ_MODELS,
     PROBLEM_TYPE_DESCRIPTIONS
 )
 from app.utils.logger.setup import setup_logger
-from app.services.language.workflow.quiz import process_quiz_workflow_wrapper, process_similar_quiz_workflow_wrapper
+from app.services.language.workflow.quiz import process_quiz_workflow_wrapper
 from app.core.config import settings
 import time
 
@@ -44,29 +42,9 @@ async def get_supported_problem_types() -> SupportedProblemTypesResponse:
         total_count=len(PROBLEM_TYPE_DESCRIPTIONS)
     )
 
-@router.post("/similar", response_model=QuizResponse)
-async def process_similar_quiz(request: QuizRequest, raw_request: Request):
-    """이미지 기반 유사 문제 생성"""
-    start_time = time.time()
-
-    try:
-        result = await process_similar_quiz_workflow_wrapper(request)
-
-        # 실행 시간 추가
-        execution_time = f"{time.time() - start_time:.2f}s"
-        result["execution_time"] = execution_time
-
-        return result
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=str(e)
-        )
-
-@router.post("/", response_model=LegacyQuizResponse)
-async def process_quiz(request: LegacyQuizRequest):
-    """기존 텍스트 기반 퀴즈 생성 (Legacy)"""
+@router.post("/", response_model=QuizResponse)
+async def process_quiz(request: QuizRequest):
+    """텍스트 기반 퀴즈 생성"""
     start_time = time.time()
 
     try:

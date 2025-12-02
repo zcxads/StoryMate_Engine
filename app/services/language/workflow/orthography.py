@@ -3,7 +3,8 @@ import json
 import logging
 import re
 import asyncio
-from typing import List, Dict, Any
+from typing import List, Dict, Any, TypedDict
+from langgraph.graph import StateGraph, END
 
 from app.models.language.all import OrthographyRequest
 from app.models.state import OrthographyState, Page, PageText
@@ -12,8 +13,20 @@ from app.utils.logger.setup import setup_logger
 from app.services.language.orthography.proofreading import proofreading_agent_per_page
 from app.services.language.orthography.contextual import contextual_agent_per_page
 from app.services.language.language_detection.detector import detect_language_with_ai
+from app.services.language.workflow.base_graph import BaseWorkflowGraph
 
 logger = setup_logger("orthography")
+
+
+# LangGraph State 정의
+class OrthographyGraphState(TypedDict):
+    """Orthography 워크플로우 상태"""
+    pages: List[Page]
+    model: str
+    detected_language: str
+    corrected_pages: List[Dict[str, Any]]
+    final_result: Dict[str, Any]
+    error: str
 
 def detect_table_structure(text: str, page_key: int = None) -> bool:
     """텍스트에서 테이블 구조를 감지합니다."""
@@ -97,7 +110,7 @@ def combine_table_pages(pages: List[Page]) -> List[Page]:
     
     return combined_pages
 
-async def process_page_orthography(page: Page, language: str = "ko", model: str = settings.llm_text_processing_model) -> dict:
+async def process_page_orthography(page: Page, language: str, model: str = settings.llm_text_processing_model) -> dict:
     """개별 페이지에 대한 텍스트 교정 처리
 
     Args:
@@ -150,79 +163,108 @@ async def process_page_orthography(page: Page, language: str = "ko", model: str 
             "has_table": False
         }
 
-async def process_orthography_workflow(state: OrthographyState, model: str = settings.llm_text_processing_model) -> dict:
-    """텍스트 교정 워크플로우 실행 (페이지별 병렬 처리)"""
+# LangGraph 노드 함수들
+async def detect_language_node(state: OrthographyGraphState) -> OrthographyGraphState:
+    """언어 감지 노드"""
     try:
-        logger.info(f"전체 {len(state.pages)} 페이지 처리 시작")
+        logger.info("언어 감지 노드 시작")
 
-        # 언어 감지를 위해 모든 텍스트 수집
+        # 모든 텍스트 수집
         all_text = ""
-        for page in state.pages:
+        for page in state["pages"]:
             for text_item in page.texts:
                 all_text += text_item.text + " "
 
-        # AI 기반 언어 감지 수행
+        # AI 기반 언어 감지
         detected_language = "ko"  # 기본값
         if all_text.strip():
             try:
-                detection_result = await detect_language_with_ai(all_text.strip(), model)
+                detection_result = await detect_language_with_ai(all_text.strip(), state["model"])
                 detected_language = detection_result.get("primary_language")
                 confidence = detection_result.get("confidence", 0.0)
                 logger.info(f"AI 언어 감지 결과: {detected_language} - 신뢰도: {confidence:.3f}")
             except Exception as e:
-                logger.warning(f"AI 언어 감지 실패, 기본값(en) 사용: {e}")
+                logger.warning(f"AI 언어 감지 실패, 기본값(ko) 사용: {e}")
 
-        # 테이블 페이지 결합 (옵션)
-        # processed_pages = combine_table_pages(state.pages)
-        # logger.info(f"테이블 결합 후 {len(processed_pages)} 페이지")
+        state["detected_language"] = detected_language
+        logger.info("언어 감지 노드 완료")
+        return state
 
-        # 현재는 기본 처리 방식 사용
-        processed_pages = state.pages
+    except Exception as e:
+        logger.error(f"언어 감지 노드 오류: {str(e)}", exc_info=True)
+        state["error"] = str(e)
+        return state
 
-        # 각 페이지를 병렬로 처리 (감지된 언어 전달)
+
+async def process_pages_node(state: OrthographyGraphState) -> OrthographyGraphState:
+    """페이지 병렬 처리 노드"""
+    try:
+        logger.info(f"페이지 처리 노드 시작 - 총 {len(state['pages'])} 페이지")
+
+        detected_language = state.get("detected_language")
+        model = state["model"]
+
+        # 각 페이지를 병렬로 처리
         tasks = [
             process_page_orthography(page, language=detected_language, model=model)
-            for page in processed_pages
+            for page in state["pages"]
         ]
 
         # 병렬 처리 실행
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        
+
         # 결과 처리
         corrected_pages = []
         error_count = 0
         table_count = 0
-        
+
         for result in results:
             if isinstance(result, Exception):
                 logger.error(f"페이지 처리 중 예외 발생: {str(result)}")
                 error_count += 1
                 continue
-                
+
             if result["status"] == "error":
                 error_count += 1
                 logger.warning(f"페이지 {result['pageKey']} 처리 실패, 원본 텍스트 사용")
-            
+
             if result.get("has_table", False):
                 table_count += 1
                 logger.info(f"페이지 {result['pageKey']}에서 테이블 처리됨")
-            
+
             corrected_pages.append(result)
-        
+
         # 페이지 키 기준으로 정렬
         corrected_pages.sort(key=lambda x: x["pageKey"])
-        
-        logger.info(f"전체 {len(corrected_pages)} 페이지 처리 완료, 오류 {error_count}개, 테이블 {table_count}개")
-        
+
+        logger.info(f"페이지 처리 완료 - 오류 {error_count}개, 테이블 {table_count}개")
+
+        state["corrected_pages"] = corrected_pages
+        return state
+
+    except Exception as e:
+        logger.error(f"페이지 처리 노드 오류: {str(e)}", exc_info=True)
+        state["error"] = str(e)
+        return state
+
+
+async def assemble_results_node(state: OrthographyGraphState) -> OrthographyGraphState:
+    """결과 조합 노드"""
+    try:
+        logger.info("결과 조합 노드 시작")
+
+        corrected_pages = state.get("corrected_pages", [])
+        original_pages = state["pages"]
+
         # 최종 결과 구성
         new_corrected_pages = []
         for page in corrected_pages:
             page_text = page["text"].strip()
-            
+
             if not page_text:
                 logger.info(f"페이지 {page['pageKey']} 텍스트가 비어있음 - 원본 텍스트 확인")
                 # 원본 페이지에서 텍스트가 있었는지 확인
-                original_page = next((p for p in state.pages if p.pageKey == page["pageKey"]), None)
+                original_page = next((p for p in original_pages if p.pageKey == page["pageKey"]), None)
                 if original_page and original_page.texts and any(t.text.strip() for t in original_page.texts):
                     # 원본에 텍스트가 있었다면 원본 사용
                     original_texts = [{"text": t.text.strip()} for t in original_page.texts if t.text.strip()]
@@ -247,8 +289,7 @@ async def process_orthography_workflow(state: OrthographyState, model: str = set
                     sentences = [line.strip() for line in page_text.split('\n') if line.strip()]
                     logger.info(f"페이지 {page['pageKey']} 테이블 모드: {len(sentences)}개 라인으로 분리")
                 else:
-                    # 일반 텍스트는 줄바꿈 기준으로 간단 분리 (LLM 호출 제거)
-                    # 교정된 텍스트는 이미 LLM이 처리했으므로 추가 분리 불필요
+                    # 일반 텍스트는 줄바꿈 기준으로 간단 분리
                     sentences = [line.strip() for line in page_text.split('\n') if line.strip()]
                     if not sentences:
                         # 줄바꿈이 없으면 전체를 하나의 문장으로
@@ -268,20 +309,20 @@ async def process_orthography_workflow(state: OrthographyState, model: str = set
                     "pageKey": page["pageKey"],
                     "texts": [{"text": sentence} for sentence in sentences if sentence.strip()]
                 }
-            
+
             new_corrected_pages.append(new_page)
-        
+
         # 최종 검증
-        expected_page_keys = set(page.pageKey for page in state.pages)
+        expected_page_keys = set(page.pageKey for page in original_pages)
         actual_page_keys = set(page["pageKey"] for page in new_corrected_pages)
-        
+
         if expected_page_keys != actual_page_keys:
             missing_keys = expected_page_keys - actual_page_keys
             logger.info(f"빈 텍스트로 인해 제외된 페이지 키: {missing_keys}")
-            
+
             # 누락된 페이지 추가 (빈 페이지는 제외)
             for page_key in missing_keys:
-                original_page = next((p for p in state.pages if p.pageKey == page_key), None)
+                original_page = next((p for p in original_pages if p.pageKey == page_key), None)
                 if original_page and original_page.texts:
                     original_texts = [{"text": t.text} for t in original_page.texts if t.text.strip()]
                     if original_texts:
@@ -295,21 +336,92 @@ async def process_orthography_workflow(state: OrthographyState, model: str = set
                         logger.info(f"누락된 페이지 {page_key}는 빈 페이지로 결과에서 제외")
                 else:
                     logger.info(f"누락된 페이지 {page_key}는 원본부터 비어있어 결과에서 제외")
-            
+
             # 다시 정렬
             new_corrected_pages.sort(key=lambda x: x["pageKey"])
-        
+
         logger.info(f"최종 처리된 페이지 수: {len(new_corrected_pages)}")
         for page in new_corrected_pages:
             logger.info(f"  PageKey: {page['pageKey']}, Texts: {len(page['texts'])}")
 
-        # 언어 감지는 이미 입력 단계에서 수행되었으므로 재사용
-        # 불필요한 중복 LLM 호출 제거
-        return {
+        # 최종 결과 저장
+        state["final_result"] = {
             "llmText": new_corrected_pages,
-            "detected_language": detected_language  # 입력 단계의 언어 감지 결과 사용
+            "detected_language": state.get("detected_language")
         }
-        
+
+        logger.info("결과 조합 노드 완료")
+        return state
+
+    except Exception as e:
+        logger.error(f"결과 조합 노드 오류: {str(e)}", exc_info=True)
+        state["error"] = str(e)
+        state["final_result"] = {
+            "llmText": [],
+            "detected_language": None
+        }
+        return state
+
+
+# LangGraph 워크플로우 클래스
+class OrthographyWorkflowGraph(BaseWorkflowGraph):
+    """Orthography LangGraph 워크플로우"""
+
+    def __init__(self):
+        super().__init__("orthography")
+
+    def build_graph(self) -> StateGraph:
+        """워크플로우 그래프 구성"""
+        workflow = StateGraph(OrthographyGraphState)
+
+        # 노드 추가
+        workflow.add_node("detect_language", detect_language_node)
+        workflow.add_node("process_pages", process_pages_node)
+        workflow.add_node("assemble_results", assemble_results_node)
+
+        # 엣지 정의
+        workflow.set_entry_point("detect_language")
+        workflow.add_edge("detect_language", "process_pages")
+        workflow.add_edge("process_pages", "assemble_results")
+        workflow.add_edge("assemble_results", END)
+
+        return workflow
+
+
+async def process_orthography_workflow(state: OrthographyState, model: str = settings.llm_text_processing_model) -> dict:
+    """텍스트 교정 워크플로우 실행 (LangGraph 기반)"""
+    try:
+        logger.info(f"LangGraph 기반 텍스트 교정 워크플로우 시작 - 총 {len(state.pages)} 페이지")
+
+        # LangGraph 워크플로우 생성
+        workflow_graph = OrthographyWorkflowGraph()
+
+        # 초기 상태 준비
+        initial_state: OrthographyGraphState = {
+            "pages": state.pages,
+            "model": model,
+            "detected_language": "",
+            "corrected_pages": [],
+            "final_result": {},
+            "error": ""
+        }
+
+        # 워크플로우 실행
+        final_state = await workflow_graph.execute(initial_state)
+
+        # 결과 반환
+        if final_state.get("error"):
+            logger.error(f"워크플로우 실행 중 오류 발생: {final_state['error']}")
+            return {
+                "llmText": [],
+                "detected_language": None
+            }
+
+        return final_state.get("final_result", {
+            "llmText": [],
+            "detected_language": None
+        })
+
     except Exception as e:
         logger.error(f"텍스트 교정 워크플로우 처리 중 오류 발생: {str(e)}", exc_info=True)
         return {

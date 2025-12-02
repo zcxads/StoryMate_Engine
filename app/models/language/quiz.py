@@ -39,41 +39,12 @@ class QuizItem(BaseModel):
     problemType: int
 
 class QuizResponse(BaseModel):
-    """유사 문제 생성 응답 모델"""
-    question: str = Field(description="생성된 유사 문제")
-    options: List[str] = Field(description="선택지 목록 (객관식인 경우), 주관식인 경우 빈 리스트")
-    execution_time: Optional[str] = Field(None, description="API execution time")
-
-class QuizRequest(BaseModel):
-    """유사 문제 생성 요청 모델 (이미지 기반)"""
-    model: str = Field(description="Language model to use for processing", default=settings.llm_advanced_analysis_model)
-    problem: str = Field(description="Base64 encoded image of the problem")
-    language: str = Field(description="Response language (ko, en, ja, zh)", default=settings.language_code[0])
-    force_model: Optional[bool] = Field(default=False, description="강제로 지정한 모델만 사용하고 fallback 모델을 사용하지 않음")
-
-    @validator('model')
-    def validate_model(cls, v):
-        if v not in SUPPORTED_QUIZ_MODELS:
-            raise ValueError(f"지원되지 않는 모델입니다. 지원 모델: {', '.join(SUPPORTED_QUIZ_MODELS)}")
-        return v
-
-    @validator('language')
-    def validate_language(cls, v):
-        supported_languages = ["ko", "en", "ja", "zh"]
-        if v not in supported_languages:
-            raise ValueError(f"지원되지 않는 언어입니다. 지원 언어: {', '.join(supported_languages)}")
-        return v
-
-    model_config = {"protected_namespaces": ()}
-
-# 기존 text 기반 quiz API를 위한 legacy 모델들
-class LegacyQuizResponse(BaseModel):
     state: str
     quizs: List[QuizItem]
     execution_time: Optional[str] = Field(None, description="API execution time")
 
-class LegacyQuizRequest(BaseModel):
-    """기존 텍스트 기반 퀴즈 생성 요청 모델"""
+class QuizRequest(BaseModel):
+    """텍스트 기반 퀴즈 생성 요청 모델"""
     model: str = Field(description="Language model to use for processing", default=settings.llm_advanced_analysis_model)
     llmText: List[Dict[str, Any]]
     quizCount: int = Field(

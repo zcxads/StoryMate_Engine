@@ -38,9 +38,9 @@ class FingerDetectionService:
         if mode == 'document_reading':
             return await self.analyze_document_reading(request)
         else:
-            return await self._analyze_finger_detection_legacy(request)
+            return await self._analyze_finger_detection(request)
     
-    async def _analyze_finger_detection_legacy(self, request: FingerDetectionRequest) -> Dict[str, Any]:
+    async def _analyze_finger_detection(self, request: FingerDetectionRequest) -> Dict[str, Any]:
         """
         기존 손가락 인식 분석
         
