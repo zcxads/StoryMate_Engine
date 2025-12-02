@@ -46,11 +46,11 @@ FastAPI 기반 API 서버로, 멀티 LLM 통합 및 교육 콘텐츠 자동 생�
 │  ┌───────────┬────────────┬──────────────┬──────────────┐   │
 │  │   TTS     │    STT     │ Orthography  │ Translation  │   │
 │  ├───────────┼────────────┼──────────────┼──────────────┤   │
-│  │   Quiz    │  Summary   │  Question    │   Lyrics     │   │
+│  │   Quiz    │  Summary   │    Play      │   Lyrics     │   │
 │  ├───────────┼────────────┼──────────────┼──────────────┤   │
-│  │Explanation│  Crawler   │Visualization |     Song     │   │
+│  │Explanation│  Crawler   │Visualization | Language Det.│   │
 │  ├───────────┼────────────┼──────────────┼──────────────┤   │
-│  │   Play    │Finger Det. │Language Det. │              │   |
+│  │   Song    │Finger Det. |              │              │   |
 │  └───────────┴────────────┴──────────────┴──────────────┘   │
 └────────────────────┬────────────────────────────────────────┘
                      │
@@ -186,14 +186,11 @@ C:\StoryMate\Engine/
 │   │       ├── translation.py   # 번역 API
 │   │       ├── quiz.py          # 퀴즈 생성 API
 │   │       ├── summary.py       # 요약 API
-│   │       ├── question.py      # 질문 생성 API
 │   │       ├── lyrics.py        # 가사 생성 API
 │   │       ├── explanation.py   # 문제 풀이 API
 │   │       ├── finger_detection.py  # 손가락 인식 API
 │   │       ├── visualization.py # 시각화 API
 │   │       ├── main_crawler.py  # 웹 크롤러 API
-│   │       ├── search.py        # 웹 검색 API
-│   │       ├── character.py     # AI 캐릭터 API
 │   │       ├── play.py          # 연극 대본 API
 │   │       ├── song.py          # 노래 생성 API
 │   │       ├── language_detection.py # 언어 감지 API
@@ -206,7 +203,6 @@ C:\StoryMate\Engine/
 │   ├── models/                  # Pydantic 데이터 모델
 │   │   ├── voice/              # 음성 관련 모델 (TTS, STT)
 │   │   ├── language/           # 언어 처리 모델
-│   │   ├── crawler/            # 크롤러 모델
 │   │   └── main_crawler/       # 메인 크롤러 모델
 │   │
 │   ├── services/                # 비즈니스 로직 레이어
@@ -221,8 +217,6 @@ C:\StoryMate\Engine/
 │   │   │   ├── finger_detection/ # 손가락 인식
 │   │   │   ├── visualization/  # 시각화
 │   │   │   └── play/           # 연극 대본
-│   │   ├── character/          # AI 캐릭터 서비스
-│   │   ├── crawler/            # 크롤러 서비스
 │   │   └── main_crawler/       # 메인 크롤러 서비스
 │   │
 │   ├── prompts/                 # LLM 프롬프트 템플릿
@@ -378,7 +372,7 @@ curl http://localhost:14056/health
 #### 3.1. 문제 풀이 - POST `/api/v1/explanation/`
 - 이미지 속 문제(수학, 과학 등)를 분석하고 풀이합니다.
 
-#### 3.2. 유사 문제 생성 - POST `/api/v1/quiz/similar`
+#### 3.2. 유사 문제 생성 - POST `/api/v1/explanation/similar`
 - 주어진 문제 이미지와 유사한 문제를 생성합니다.
 
 #### 3.3. 손가락 인식 - POST `/api/v1/finger-detection/analyze`
