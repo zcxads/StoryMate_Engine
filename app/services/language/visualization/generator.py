@@ -1294,7 +1294,7 @@ class VisualizationGenerator:
             from app.core.config import settings
             structured_response = await call_llm(
                 prompt=prompt,
-                model=settings.llm_visualization_model
+                model=settings.default_llm_model
             )
 
             # call_llm 응답 처리
@@ -1427,7 +1427,7 @@ class VisualizationGenerator:
         """
         try:
             if not model:
-                model = settings.llm_visualization_model
+                model = settings.default_llm_model
 
             analyses = []
 

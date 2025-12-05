@@ -48,5 +48,5 @@ SUPPORTED_STT_MODELS = [
 class SupportedSTTModelsResponse(BaseModel):
     """지원되는 STT 모델 응답"""
     supported_models: List[str] = Field(default=SUPPORTED_STT_MODELS, description="지원되는 모델 목록")
-    default_model: str = Field(default=settings.llm_stt_model, description="기본 모델")
+    default_model: str = Field(default=settings.default_llm_model, description="기본 모델")
     total_count: int = Field(default=len(SUPPORTED_STT_MODELS), description="총 모델 수")

@@ -21,7 +21,7 @@ async def get_supported_models() -> SupportedMainCrawlerModelsResponse:
     """메인 크롤러에서 지원되는 AI 모델 목록을 반환합니다."""
     return SupportedMainCrawlerModelsResponse(
         supported_models=SUPPORTED_MAIN_CRAWLER_MODELS,
-        default_model=settings.llm_web_search_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_MAIN_CRAWLER_MODELS)
     )
 

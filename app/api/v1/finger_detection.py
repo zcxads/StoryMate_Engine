@@ -54,7 +54,7 @@ async def get_supported_models() -> SupportedFingerDetectionModelsResponse:
     from app.core.config import settings
     return SupportedFingerDetectionModelsResponse(
         supported_models=SUPPORTED_FINGER_DETECTION_MODELS,
-        default_model=settings.llm_finger_detection_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_FINGER_DETECTION_MODELS)
     )
 
@@ -208,7 +208,7 @@ async def convert_image_to_base64(
 async def analyze_finger_pointing_upload(
     image: UploadFile = File(..., description="분석할 이미지 파일 (JPEG, PNG, WebP, GIF)"),
     mode: str = Form("finger_detection", description="분석 모드 (finger_detection | document_reading)"),
-    model: str = Form(settings.llm_finger_detection_model, description="사용할 LLM 모델")
+    model: str = Form(settings.default_llm_model, description="사용할 LLM 모델")
 ) -> Union[FingerDetectionSimpleResponse, DocumentReadingResponse]:
     """
     이미지 파일을 업로드하고 분석 모드를 선택하면 서버가 내부적으로 Base64로 인코딩 후

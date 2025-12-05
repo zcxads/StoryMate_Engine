@@ -25,7 +25,7 @@ async def get_supported_models() -> SupportedModelsResponse:
     """
     return SupportedModelsResponse(
         supported_models=SUPPORTED_QUIZ_MODELS,
-        default_model=settings.llm_advanced_analysis_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_QUIZ_MODELS)
     )
 

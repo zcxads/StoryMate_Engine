@@ -50,14 +50,14 @@ class ContentPossibility(BaseModel):
 class ContentCategoryRequest(BaseModel):
     """컨텐츠 카테고리 분류 요청"""
     llmText: List[PageText] = Field(..., description="페이지별 텍스트 데이터")
-    model: Optional[str] = Field(default=settings.llm_content_category_model, description="사용할 LLM 모델")
+    model: Optional[str] = Field(default=settings.default_llm_model, description="사용할 LLM 모델")
     language: str = Field("ko", description="응답 언어 (ko, en, ja, zh)")
 
     def __init__(self, **data):
         super().__init__(**data)
         # 모델이 지정되지 않은 경우 중앙 설정 사용
         if not self.model:
-            self.model = settings.llm_content_category_model
+            self.model = settings.default_llm_model
 
 class ContentCategoryResponse(BaseModel):
     """컨텐츠 카테고리 분류 응답"""

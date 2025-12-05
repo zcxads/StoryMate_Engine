@@ -160,7 +160,7 @@ async def get_supported_models() -> SupportedVisualizationModelsResponse:
     from app.core.config import settings
     return SupportedVisualizationModelsResponse(
         supported_models=SUPPORTED_VISUALIZATION_MODELS,
-        default_model=settings.llm_visualization_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_VISUALIZATION_MODELS)
     )
 
@@ -187,7 +187,7 @@ async def generate_visualization(
     try:
         # 모델이 지정되지 않은 경우 기본 모델 사용
         if not model:
-            model = settings.llm_visualization_model
+            model = settings.default_llm_model
 
         # text와 file 중 하나는 반드시 제공되어야 함
         if not text and not file:

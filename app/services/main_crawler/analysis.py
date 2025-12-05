@@ -124,7 +124,7 @@ class CrawlerAnalysisService:
 
             response = await call_llm(
                 prompt=prompt,
-                model=settings.llm_web_search_model
+                model=settings.default_llm_model
             )
 
             if hasattr(response, 'content'):
@@ -317,7 +317,7 @@ class CrawlerAnalysisService:
 
             response = await call_llm(
                 prompt=prompt,
-                model=settings.llm_web_search_model
+                model=settings.default_llm_model
             )
 
             if hasattr(response, 'content'):

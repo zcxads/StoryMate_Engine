@@ -5,6 +5,7 @@ from app.core.config import settings
 
 # 지원되는 모델 목록 (전역 통일)
 SUPPORTED_EXPLANATION_MODELS = [
+    "gemini-3-pro-preview",
     "gemini-2.5-pro",
     "gemini-2.5-flash",
     "gemini-2.0-flash",
@@ -60,7 +61,7 @@ class SupportedModelsResponse(BaseModel):
 
 class SimilarQuizRequest(BaseModel):
     """유사 문제 생성 요청 모델 (이미지 기반)"""
-    model: str = Field(description="Language model to use for processing", default=settings.llm_advanced_analysis_model)
+    model: str = Field(description="Language model to use for processing", default=settings.default_llm_model)
     problem: str = Field(description="Base64 encoded image of the problem")
     language: str = Field(description="Response language (ko, en, ja, zh)", default=settings.language_code[0])
     force_model: Optional[bool] = Field(default=False, description="강제로 지정한 모델만 사용하고 fallback 모델을 사용하지 않음")

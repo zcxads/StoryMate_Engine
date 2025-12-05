@@ -43,7 +43,7 @@ class VisualizationGenerateRequest(BaseModel):
     )
 
     model: str = Field(
-        default=settings.llm_visualization_model,
+        default=settings.default_llm_model,
         description="사용할 LLM 모델"
     )
 
@@ -75,7 +75,7 @@ class VisualizationRequest(BaseModel):
 
     # LLM 설정
     model: Optional[str] = Field(
-        default=settings.llm_visualization_model,
+        default=settings.default_llm_model,
         description="사용할 LLM 모델"
     )
     
@@ -207,7 +207,7 @@ class SupportedVisualizationModelsResponse(BaseModel):
     )
 
     default_model: str = Field(
-        default=settings.llm_visualization_model,
+        default=settings.default_llm_model,
         description="기본 모델"
     )
 

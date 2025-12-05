@@ -17,7 +17,7 @@ class FingerDetectionRequest(BaseModel):
 
     # LLM 설정
     model: Optional[str] = Field(
-        default=settings.llm_finger_detection_model,
+        default=settings.default_llm_model,
         description="사용할 LLM 모델"
     )
 
@@ -160,7 +160,7 @@ class SupportedFingerDetectionModelsResponse(BaseModel):
     )
     
     default_model: str = Field(
-        default=settings.llm_finger_detection_model,
+        default=settings.default_llm_model,
         description="기본 모델"
     )
     

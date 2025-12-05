@@ -17,7 +17,7 @@ async def get_supported_models() -> SupportedSTTModelsResponse:
     """지원되는 STT 모델 목록을 반환합니다."""
     return SupportedSTTModelsResponse(
         supported_models=SUPPORTED_STT_MODELS,
-        default_model=settings.llm_stt_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_STT_MODELS)
     )
 

@@ -140,8 +140,8 @@ class Settings(BaseSettings):
     # ============================================
     # 중앙화된 LLM 모델 설정
     # ============================================
-    # 기본 LLM 제공자 (gemini, openai, anthropic)
-    default_llm_model: Optional[str] = "gpt-4o"
+    # 기본 LLM 제공자 (gemini, openai)
+    default_llm_model: Optional[str] = "gemini-2.5-flash"
 
     # OpenAI 설정
     openai_model: Optional[str] = "gpt-4o"
@@ -159,42 +159,14 @@ class Settings(BaseSettings):
     # ============================================
     # 기능별 LLM 모델 설정 (중앙 관리)
     # ============================================
-    # 문제 풀이 (gemini로 변경될 가능성 있음)
-    llm_for_explanation: Optional[str] = "gpt-4o"
-
-    # 일반 텍스트 처리 (번역, 요약, 검색, 노래 가사, 연극 대본 등)
-    llm_text_processing_model: Optional[str] = "gpt-4o" # gemini-2.0-flash
-
-    # 고급 분석 (설명, 퀴즈 등)
-    llm_advanced_analysis_model: Optional[str] = "gpt-4o" # gemini-2.5-pro
-
-    # 시각화 (표/차트 생성)
-    llm_visualization_model: Optional[str] = "gpt-4o" # gemini-2.5-flash
-
-    # STT 기능 매칭
-    llm_stt_model: Optional[str] = "gpt-4o"
-
-    # 웹 검색
-    llm_web_search_model: Optional[str] = "gpt-4o"
-
-    # 이미지 분석 (텍스트 추출 등)
-    llm_image_analysis_model: Optional[str] = "gpt-4o"
-
-    # 손가락 인식
-    llm_finger_detection_model: Optional[str] = "gpt-5" # gemini-2.5-flash
-
-    # 콘텐츠 카테고리 분류
-    llm_content_category_model: Optional[str] = "gpt-4o" # gemini-2.5-pro
-
-    # 언어 감지
-    llm_language_detection_model: Optional[str] = "gpt-4o" # gemini-2.0-flash
+    # 문제 풀이 전용 모델 (gemini-3-pro-preview 사용)
+    llm_for_explanation: Optional[str] = "gemini-3-pro-preview"
 
     # 웹 크롤러 설정
     web_crawler_timeout: int = 30
     web_crawler_headless: bool = True
     web_crawler_user_agent: str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     web_crawler_window_size: str = "1920,1080"
-    web_crawler_model: Optional[str] = "gpt-4o" # gemini-2.0-flash
 
     # LangChain/LangSmith 설정
     langchain_api_key: Optional[str] = os.getenv("LANGCHAIN_API_KEY")

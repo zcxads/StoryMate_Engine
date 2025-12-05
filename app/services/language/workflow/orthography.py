@@ -109,7 +109,7 @@ def combine_table_pages(pages: List[Page]) -> List[Page]:
     
     return combined_pages
 
-async def process_page_orthography(page: Page, language: str, model: str = settings.llm_text_processing_model) -> dict:
+async def process_page_orthography(page: Page, language: str, model: str = settings.default_llm_model) -> dict:
     """개별 페이지에 대한 텍스트 교정 처리
 
     Args:
@@ -387,7 +387,7 @@ class OrthographyWorkflowGraph(BaseWorkflowGraph):
         return workflow
 
 
-async def process_orthography_workflow(state: OrthographyState, model: str = settings.llm_text_processing_model) -> dict:
+async def process_orthography_workflow(state: OrthographyState, model: str = settings.default_llm_model) -> dict:
     """텍스트 교정 워크플로우 실행 (LangGraph 기반)"""
     try:
         logger.info(f"LangGraph 기반 텍스트 교정 워크플로우 시작 - 총 {len(state.pages)} 페이지")
@@ -432,7 +432,7 @@ async def process_orthography_workflow_wrapper(request_data) -> dict:
     """텍스트 교정 워크플로우 래퍼 - 문장 분리 최적화"""
     try:
         # model 필드 추출
-        model = request_data.get("model", settings.llm_text_processing_model) if isinstance(request_data, dict) else getattr(request_data, "model", settings.llm_text_processing_model)
+        model = request_data.get("model", settings.default_llm_model) if isinstance(request_data, dict) else getattr(request_data, "model", settings.default_llm_model)
 
         request_pages = request_data["pages"] if isinstance(request_data, dict) else request_data.pages
 
