@@ -2,11 +2,9 @@
 이미지 기반 문제 해결 서비스
 """
 
-import base64
 import re
-import os
 import json
-from typing import Tuple, Dict, Any, Optional
+from typing import Dict, Any, Optional
 
 from app.prompts.language.explanation.solver import create_explanation_prompt
 from app.prompts.language.explanation.choice_extractor import create_choice_extraction_prompt

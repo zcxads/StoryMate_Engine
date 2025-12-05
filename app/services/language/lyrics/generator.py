@@ -1,4 +1,3 @@
-import logging
 from typing import Dict, Any
 
 from langsmith.run_helpers import traceable

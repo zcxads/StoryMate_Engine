@@ -1,6 +1,5 @@
-from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, List, Dict, Any, Union
-from enum import Enum
+from pydantic import BaseModel, Field
+from typing import Optional, List, Dict, Union
 
 from app.models.language.content_category import Genre
 from app.core.config import settings

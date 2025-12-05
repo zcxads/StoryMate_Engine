@@ -2,18 +2,14 @@
 컨텐츠 카테고리 분석 서비스
 """
 
-import os
 import json
 import time
-from typing import Dict, Any, List, Optional
 from app.utils.language.generator import call_llm
 
 from app.models.language.content_category import (
     ContentCategoryRequest,
     ContentCategoryResponse,
     Genre,
-    ContentType,
-    VisualizationType
 )
 from app.prompts.language.content_category import get_content_category_analysis_prompt
 from app.utils.logger.setup import setup_logger

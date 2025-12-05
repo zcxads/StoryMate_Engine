@@ -6,14 +6,16 @@ WORKDIR /app
 
 # 시스템 패키지 업데이트
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Basic utilities
     curl \
     wget \
-    ffmpeg \
     gnupg \
+    # Audio/Video processing
+    ffmpeg \
+    # Headless Chrome dependencies
     xvfb \
     libnss3 \
     libxss1 \
-    libasound2 \
     libatk-bridge2.0-0 \
     libdrm2 \
     libxcomposite1 \
@@ -22,16 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgbm1 \
     libxkbcommon0 \
     libgtk-3-0 \
-    # Data processing dependencies
-    build-essential \
-    libxml2-dev \
-    libxslt1-dev \
-    zlib1g-dev \
-    # MeCab (Japanese text processing)
-    mecab \
-    libmecab-dev \
-    libmecab2 \
-    mecab-ipadic-utf8 \
     # Multilingual fonts for matplotlib
     fonts-nanum \
     fonts-noto-cjk \
@@ -42,10 +34,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # 폰트 캐시 업데이트
 RUN fc-cache -fv
-
-# MeCab 설정
-ENV MECAB_DICDIR=/var/lib/mecab/dic/ipadic-utf8
-RUN ln -s /etc/mecabrc /usr/local/etc/mecabrc || true
 
 # Google Chrome 저장소 추가 및 설치
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg && \

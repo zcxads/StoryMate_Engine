@@ -38,9 +38,6 @@ murf==2.0.2
 PyPDF2==3.0.1
 PyMuPDF==1.26.4
 
-# Image Processing & OCR
-pillow==11.3.0
-
 # NLP & Text Processing (crawler_analysis용)
 stopwordsiso==0.6.1  # 다국어 불용어
 keybert==0.8.5  # 키워드 추출

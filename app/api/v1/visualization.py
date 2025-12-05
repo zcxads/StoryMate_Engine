@@ -1,19 +1,14 @@
 from fastapi import APIRouter, HTTPException, status, UploadFile, File, Form
-from fastapi.responses import FileResponse
 import os
 import time
 from app.models.language.visualization import (
     VisualizationRequest,
-    VisualizationGenerateRequest,
     VisualizationResponse,
     VisualizationContent,
-    VisualizationError,
     SupportedVisualizationModelsResponse,
-    FileTextExtractionResponse,
     SUPPORTED_VISUALIZATION_MODELS,
     VisualizationType,
     VisualizationCategory,
-    OutputFormat,
 )
 from app.services.language.visualization.generator import VisualizationGenerator
 from app.core.config import settings

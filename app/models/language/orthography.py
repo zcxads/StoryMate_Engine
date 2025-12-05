@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, validator
-from typing import List, Dict, Optional, Union, Any
+from typing import List, Dict, Optional, Any
 
 from app.core.config import settings
 

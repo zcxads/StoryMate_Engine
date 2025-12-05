@@ -2,12 +2,8 @@
 손가락 인식 프롬프트 템플릿 - 언어별 통합 관리
 """
 
-from app.core.messages import (
-    FINGER_NO_FINGER_MESSAGE,
-)
-
 # 한국어 프롬프트
-FINGER_DETECTION_PROMPT_KO = f"""이미지를 분석하기 전에 반드시 다음 질문에 답해주세요:
+FINGER_DETECTION_PROMPT_KO = """이미지를 분석하기 전에 반드시 다음 질문에 답해주세요:
 
 **필수 확인 질문: 이 이미지에 사람의 손가락이 보입니까?**
 
@@ -32,18 +28,18 @@ FINGER_DETECTION_PROMPT_KO = f"""이미지를 분석하기 전에 반드시 다�
 - 손가락이 가리키는 위치와 가장 가까운 텍스트 선택
 
 **Case 1 - 손가락이 명확하게 보이지 않는 경우만 해당:**
-{{
+{
     "status": "NO_FINGER",
-    "message": "{FINGER_NO_FINGER_MESSAGE}"
-}}
+    "message": "손가락을 인식할 수 없습니다. 명확하게 손가락으로 가리키는 이미지를 다시 업로드해주세요."
+}
 - **매우 엄격하게 판단**: 손가락이 조금이라도 보이면 이 케이스가 아닙니다
 - 사람의 손가락이 전혀 보이지 않거나, 손가락인지 불명확한 경우만 해당
 
 **Case 2 - 이미지에 읽을 수 있는 텍스트가 전혀 없는 경우:**
-{{
+{
     "status": "EMPTY_POINTING",
-    "message": "{FINGER_NO_FINGER_MESSAGE}"
-}}
+    "message": "손가락을 인식할 수 없습니다. 명확하게 손가락으로 가리키는 이미지를 다시 업로드해주세요."
+}
 - **이미지를 스캔하여 실제로 읽을 수 있는 텍스트/단어가 있는지 확인**
 - 텍스트가 전혀 없거나, 손가락이 빈 공간만 가리키는 경우만 해당
 - **중요**: 텍스트가 없는데 단어를 만들어내지 마세요!
@@ -79,12 +75,12 @@ FINGER_DETECTION_PROMPT_KO = f"""이미지를 분석하기 전에 반드시 다�
 - **NO_FINGER와 EMPTY_POINTING은 매우 예외적인 케이스로만 사용**
 
 분석 후 다음 JSON 형식으로 응답:
-{{
+{
     "detected_word": "가리킨 정확한 단일 단어만",
     "is_meaningful": true,
     "meaning": "검출된 단어의 사전적 뜻만 간결하게 (반드시 한국어로)",
     "explanation": "해당 단어에 대한 자세한 설명 (문맥, 사용법, 예시, 어원 등 포함, 반드시 한국어로)"
-}}
+}
 
 **explanation 작성 시 절대 규칙 (매우 중요!):**
 - **순수하게 detected_word 자체의 사전적 의미와 용법만 설명**

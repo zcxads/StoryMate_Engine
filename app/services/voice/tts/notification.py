@@ -1,10 +1,9 @@
 from typing import Dict, Set, Any, Optional
 import asyncio
-import json
 import time
 from datetime import datetime
 from fastapi import WebSocket
-from app.models.voice.tts import TTSJobStatus, JobStatusResponse
+from app.models.voice.tts import JobStatusResponse
 
 # 로깅 설정
 from app.utils.logger.setup import setup_logger

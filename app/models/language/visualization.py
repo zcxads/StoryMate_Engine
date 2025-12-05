@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, Literal, List, Dict, Any
+from typing import Optional, List, Dict, Any
 from enum import Enum
 from app.models.language.content_category import Genre
 from app.core.config import settings

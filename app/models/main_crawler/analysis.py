@@ -1,5 +1,4 @@
 from pydantic import BaseModel, HttpUrl
-from typing import Optional
 
 class CrawlerAnalysisRequest(BaseModel):
     """크롤러 분석 요청 모델"""

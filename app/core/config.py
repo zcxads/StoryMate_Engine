@@ -18,7 +18,6 @@ class Settings(BaseSettings):
 
     # 파일 저장 설정
     output_dir: str = "tts_output"
-    sound_output_dir: str = "sound_output"
 
     # 언어 설정
     language_code: List[str] = ['ko', 'en', 'ja', 'zh']
@@ -144,17 +143,16 @@ class Settings(BaseSettings):
     default_llm_model: Optional[str] = "gemini-2.5-flash"
 
     # OpenAI 설정
-    openai_model: Optional[str] = "gpt-4o"
     openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
+    openai_model: Optional[str] = os.getenv("OPENAI_MODEL")
     openai_temperature: Optional[float] = 0.0
     openai_max_tokens: Optional[int] = 4000
 
     # Gemini 설정
     gemini_api_key: Optional[str] = os.getenv("GEMINI_API_KEY")
-    gemini: Optional[str] = os.getenv("GEMINI_API_KEY")
-    gemini_model: Optional[str] = "gemini-2.0-flash"
+    gemini_model: Optional[str] = os.getenv("GEMINI_MODEL")
     gemini_temperature: Optional[float] = 0.0
-    gemini_max_tokens: Optional[int] = 2048  # Gemini 출력 토큰 제한 (연극 대본 등 긴 출력용)
+    gemini_max_tokens: Optional[int] = 2048
 
     # ============================================
     # 기능별 LLM 모델 설정 (중앙 관리)
@@ -187,8 +185,6 @@ class Settings(BaseSettings):
     naver_bucket_name: Optional[str] = os.getenv("NAVER_BUCKET_NAME")
     naver_bucket_visual: Optional[str] = os.getenv("NAVER_BUCKET_VISUAL")
     naver_bucket_tts_folder: Optional[str] = "TTS"
-    naver_bucket_bgm_folder: Optional[str] = "BGM"
-    naver_bucket_effect_folder: Optional[str] = "Effect"
     naver_bucket_play_folder: Optional[str] = "PLAY"
 
     model_config = SettingsConfigDict(

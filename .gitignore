@@ -5,8 +5,5 @@ logs/
 ven/
 .env
 venv/
-backup*/
 tts_output/
-song_output/
-sound_output/
 credentials/
