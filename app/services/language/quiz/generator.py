@@ -1,9 +1,7 @@
-import random
 from pydantic import RootModel
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 
 from langsmith.run_helpers import traceable
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 

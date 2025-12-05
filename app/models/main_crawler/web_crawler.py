@@ -30,5 +30,5 @@ class MainCrawlResponse(BaseModel):
 class SupportedMainCrawlerModelsResponse(BaseModel):
     """지원되는 메인 크롤러 모델 응답"""
     supported_models: List[str] = SUPPORTED_MAIN_CRAWLER_MODELS
-    default_model: str = settings.llm_web_search_model
+    default_model: str = settings.default_llm_model
     total_count: int = len(SUPPORTED_MAIN_CRAWLER_MODELS)

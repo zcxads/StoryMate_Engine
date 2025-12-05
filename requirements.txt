@@ -9,11 +9,9 @@ pydantic-settings==2.6.0
 
 # AI & LLM
 openai==1.109.1
-anthropic==0.49.0
 google-generativeai==0.8.5
 google-genai==1.30.0
 langchain==0.3.27
-langchain-anthropic==0.3.12
 langchain-community==0.3.27
 langchain-core==0.3.74
 langchain-google-genai==2.0.10
@@ -39,9 +37,6 @@ murf==2.0.2
 # PDF Processing
 PyPDF2==3.0.1
 PyMuPDF==1.26.4
-
-# Image Processing & OCR
-pillow==11.3.0
 
 # NLP & Text Processing (crawler_analysis용)
 stopwordsiso==0.6.1  # 다국어 불용어

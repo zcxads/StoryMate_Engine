@@ -3,17 +3,17 @@ import time
 import json
 import base64
 from typing import Dict, Any, Optional
-from app.models.language.finger_detection import FingerDetectionRequest, DocumentReadingResponse
+from app.models.language.finger_detection import FingerDetectionRequest
 from app.utils.language.generator import call_llm
 from app.core.config import settings
 from app.utils.logger.setup import setup_logger
 from app.prompts.language.finger_detection.detector import get_finger_detection_prompt
-from app.core.messages import (
-    FINGER_NO_FINGER_MESSAGE,
-)
 from app.prompts.language.finger_detection.document_reader import DocumentReadingPrompt
 
 logger = setup_logger("finger_detection")
+
+NO_FINGER_MESSAGE = "손가락을 인식할 수 없습니다. 명확하게 손가락으로 가리키는 이미지를 다시 업로드해주세요."
+
 
 class FingerDetectionService:
     """손가락 가리키기 인식 서비스"""
@@ -298,14 +298,14 @@ class FingerDetectionService:
                 if status == "NO_FINGER":
                     logger.info("손가락 없음 감지됨 - 재업로드 요청")
                     return {
-                        "message": parsed_data.get("message", FINGER_NO_FINGER_MESSAGE)
+                        "message": parsed_data.get("message", NO_FINGER_MESSAGE)
                     }
 
                 # Case 2: EMPTY_POINTING
                 if status == "EMPTY_POINTING":
                     logger.info("허공 가리키기 감지됨 - 재업로드 요청")
                     return {
-                        "message": parsed_data.get("message", FINGER_NO_FINGER_MESSAGE)
+                        "message": parsed_data.get("message", NO_FINGER_MESSAGE)
                     }
 
                 # Case 3: 정상 감지된 경우
@@ -318,7 +318,7 @@ class FingerDetectionService:
                 if not is_meaningful:
                     logger.warning(f"LLM이 의미 없는 단어로 판단: '{detected_word}' - 분석 실패 메시지 반환")
                     return {
-                        "message": FINGER_NO_FINGER_MESSAGE
+                        "message": NO_FINGER_MESSAGE
                     }
 
                 # detected_word가 있으면 TTS 생성

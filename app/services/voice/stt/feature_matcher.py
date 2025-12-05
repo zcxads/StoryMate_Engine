@@ -12,7 +12,7 @@ class FeatureMatcher:
     """기능 매칭 처리기 (OpenAI GPT 기반)"""
 
     def __init__(self):
-        self.model = settings.llm_stt_model
+        self.model = settings.default_llm_model
 
     async def match_feature(self, text: str) -> Dict[str, Any]:
         """

@@ -20,7 +20,7 @@ async def get_supported_models() -> SupportedLanguageDetectionModelsResponse:
     """
     return SupportedLanguageDetectionModelsResponse(
         supported_models=SUPPORTED_LANGUAGE_DETECTION_MODELS,
-        default_model=settings.llm_language_detection_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_LANGUAGE_DETECTION_MODELS)
     )
 
@@ -49,7 +49,7 @@ async def process_language_detection(request: LanguageDetectionRequest):
             )
 
         # 중앙 설정에서 모델 사용
-        result = await detect_language_with_ai(request.texts, model_name=settings.llm_language_detection_model)
+        result = await detect_language_with_ai(request.texts, model_name=settings.default_llm_model)
         
         # 언어 이름 매핑
         supported_languages = get_supported_languages()
@@ -89,7 +89,7 @@ async def get_supported_languages_list():
             for code, name in supported_languages.items()
         ],
         "total_count": len(supported_languages),
-        "model": settings.llm_language_detection_model
+        "model": settings.default_llm_model
     }
 
 @router.get("/health")
@@ -100,6 +100,6 @@ async def language_detection_health_check():
         "service": "Language Detection",
         "description": "AI 기반 텍스트 언어 감지 서비스",
         "method": "ai",
-        "model": settings.llm_language_detection_model,
+        "model": settings.default_llm_model,
         "supported_languages": ["Korean", "Japanese", "English", "Chinese (General)", "Chinese (Simplified)", "Chinese (Traditional)"]
     } 

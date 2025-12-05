@@ -1,14 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-import seaborn as sns
-import plotly.graph_objects as go
-import plotly.express as px
-import plotly.io as pio
 import io
 import os
-import re
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Tuple
 from app.utils.logger.setup import setup_logger
 
 logger = setup_logger("chart_renderer")

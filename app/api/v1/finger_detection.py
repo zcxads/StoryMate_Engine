@@ -6,8 +6,6 @@ from app.models.language.finger_detection import (
     FingerDetectionRequest,
     FingerDetectionSimpleResponse,
     FingerDetectionSuccessResponse,
-    FingerDetectionEmptyResponse,
-    FingerDetectionNoFingerResponse,
     DocumentReadingResponse,
     ImageToBase64Response,
     SupportedFingerDetectionModelsResponse,
@@ -19,29 +17,27 @@ from app.core.config import settings
 # 로깅 설정
 from app.utils.logger.setup import setup_logger
 
-from app.core.messages import (
-    FINGER_NO_FINGER_MESSAGE,
-)
-import re
-
 logger = setup_logger('finger_detection')
 
 router = APIRouter(prefix="/finger-detection")
+
+NO_FINGER_MESSAGE = "손가락을 인식할 수 없습니다. 명확하게 손가락으로 가리키는 이미지를 다시 업로드해주세요."
+
 
 def clean_escape_characters(text: str) -> str:
     """응답 텍스트에서 모든 백슬래시 escape 패턴을 제거합니다."""
     if not text:
         return text
-    
+
     # \" 패턴이 등장하면 \" 전체를 제거 (쌍따옴표까지 모두 제거)
     text = text.replace('\"', '')
-    
+
     return text.strip()
 
 def get_appropriate_error_message(result: dict) -> str:
     """결과에 따라 적절한 에러 메시지를 반환합니다."""
     # 모든 손가락 인식 실패 케이스에 대해 통일된 에러 메시지 반환
-    return FINGER_NO_FINGER_MESSAGE
+    return "손가락을 인식할 수 없습니다. 명확하게 손가락으로 가리키는 이미지를 다시 업로드해주세요."
 
 @router.get("/models", response_model=SupportedFingerDetectionModelsResponse)
 async def get_supported_models() -> SupportedFingerDetectionModelsResponse:
@@ -54,7 +50,7 @@ async def get_supported_models() -> SupportedFingerDetectionModelsResponse:
     from app.core.config import settings
     return SupportedFingerDetectionModelsResponse(
         supported_models=SUPPORTED_FINGER_DETECTION_MODELS,
-        default_model=settings.llm_finger_detection_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_FINGER_DETECTION_MODELS)
     )
 
@@ -124,7 +120,7 @@ async def analyze_finger_pointing(request: FingerDetectionRequest) -> Union[Fing
             if "message" in result and len(result) == 1:
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail=FINGER_NO_FINGER_MESSAGE
+                    detail=NO_FINGER_MESSAGE
                 )
 
             # 손가락 인식 성공 시 응답 반환
@@ -208,7 +204,7 @@ async def convert_image_to_base64(
 async def analyze_finger_pointing_upload(
     image: UploadFile = File(..., description="분석할 이미지 파일 (JPEG, PNG, WebP, GIF)"),
     mode: str = Form("finger_detection", description="분석 모드 (finger_detection | document_reading)"),
-    model: str = Form(settings.llm_finger_detection_model, description="사용할 LLM 모델")
+    model: str = Form(settings.default_llm_model, description="사용할 LLM 모델")
 ) -> Union[FingerDetectionSimpleResponse, DocumentReadingResponse]:
     """
     이미지 파일을 업로드하고 분석 모드를 선택하면 서버가 내부적으로 Base64로 인코딩 후
@@ -265,7 +261,7 @@ async def analyze_finger_pointing_upload(
             if "message" in result and len(result) == 1:
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail=FINGER_NO_FINGER_MESSAGE
+                    detail=NO_FINGER_MESSAGE
                 )
 
             # 손가락 인식 성공 시 응답 반환

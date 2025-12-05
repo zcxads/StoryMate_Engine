@@ -33,7 +33,7 @@ async def get_supported_models() -> SupportedContentCategoryModelsResponse:
     """
     return SupportedContentCategoryModelsResponse(
         supported_models=SUPPORTED_CONTENT_CATEGORY_MODELS,
-        default_model=settings.llm_content_category_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_CONTENT_CATEGORY_MODELS)
     )
 

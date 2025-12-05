@@ -20,7 +20,7 @@ async def get_supported_models() -> SupportedModelsResponse:
     """
     return SupportedModelsResponse(
         supported_models=SUPPORTED_ORTHOGRAPHY_MODELS,
-        default_model=settings.llm_text_processing_model,
+        default_model=settings.default_llm_model,
         total_count=len(SUPPORTED_ORTHOGRAPHY_MODELS)
     )
 

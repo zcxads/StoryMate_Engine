@@ -10,7 +10,7 @@ import boto3
 from app.core.config import settings
 from app.models.voice.tts import (
     TTSRequest, SingleTTSRequest, TTSResponse, SingleTTSResponse,
-    TTSJobStatus, JobStatusResponse, VoiceListResponse, GenderType, GeminiVoiceType,
+    TTSJobStatus, JobStatusResponse, VoiceListResponse, GenderType,
     PlayTTSRequest
 )
 import random
@@ -409,7 +409,8 @@ class TTSService:
                     elif clean_gender == GenderType.MALE.value and settings.gemini_male_voices:
                         voice = settings.gemini_male_voices[0]
                     else:
-                        voice = GeminiVoiceType.get_default().value
+                        # config에서 기본 Gemini 음성 사용 (첫 번째 음성)
+                        voice = settings.gemini_all_voices[0] if settings.gemini_all_voices else "Charon"
 
                 filename = f"single_{voice}_{clean_gender}_{timestamp}_{unique_id}.{settings.audio_format}"
                 file_path = os.path.join(output_dir, filename)
@@ -479,8 +480,8 @@ class TTSService:
                 voices_to_use = ["echo"]
                 logger.debug(f"🔧 DEBUG: OpenAI 기본 목소리 사용 - {voices_to_use}")
             else:  # gemini (기본값)
-                # Gemini 기본 목소리
-                voices_to_use = [GeminiVoiceType.get_default().value]
+                # Gemini 기본 목소리 (config에서 가져오기)
+                voices_to_use = [settings.gemini_all_voices[0]] if settings.gemini_all_voices else ["Charon"]
                 logger.debug(f"🔧 DEBUG: Gemini 기본 목소리 사용 - {voices_to_use}")
         
         # 성별 힌트 설정 - 입력된 힌트를 패턴으로 반복 적용

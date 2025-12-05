@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Optional
 
 class SongRequest(BaseModel):
     lyrics: List[str] = []

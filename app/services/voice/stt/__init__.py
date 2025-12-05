@@ -1,1 +1,0 @@
-# STT services package

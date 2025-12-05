@@ -15,7 +15,7 @@ SUPPORTED_TRANSLATION_MODELS = [
 
 class TranslationRequest(BaseModel):
     """번역 요청 모델"""
-    model: str = Field(description="Language model to use for processing", default=settings.llm_text_processing_model)
+    model: str = Field(description="Language model to use for processing", default=settings.default_llm_model)
     llmText: List[Dict[str, Any]]
     target: str = Field(description="Target language code (default: Korean)", default=settings.language_code[0])
     

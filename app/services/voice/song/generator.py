@@ -1,8 +1,6 @@
 import os
-import json
 import boto3
 import asyncio
-import logging
 import aiohttp
 import tempfile
 import time
@@ -35,7 +33,7 @@ FOLDER_NAME = os.getenv("NAVER_BUCKET_SONG")
 
 
 def generate_unique_filename(base_name: str, extension: str) -> str:
-    """SOUND API와 동일한 패턴으로 파일명 생성 (timestamp 기반)"""
+    """파일명 생성 (timestamp 기반)"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     # 확장자에서 점(.) 제거 (이미 있을 경우 대비)
     ext = extension.lstrip('.')

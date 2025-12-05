@@ -3,9 +3,7 @@ from urllib.parse import urlparse
 
 from app.utils.logger.setup import setup_logger
 from app.utils.language.generator import call_llm
-from langchain_core.output_parsers import StrOutputParser
 from langgraph.graph import StateGraph, END
-from langchain_core.runnables import RunnablePassthrough
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options

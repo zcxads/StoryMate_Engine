@@ -4,8 +4,7 @@ from typing import Dict, Any, List, TypedDict
 from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END
 
-from app.models.language.lyrics import SongLyricsRequest, SongLyricsResponse
-from app.models.state import LyricsState, Page, PageText, get_valid_lyrics_state, serialize_for_json
+from app.models.state import LyricsState, Page, PageText, get_valid_lyrics_state
 
 from app.services.language.lyrics.generator import lyrics_generator
 from app.services.language.lyrics.formatter import lyrics_formatter

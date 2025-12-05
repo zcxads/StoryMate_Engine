@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, validator
-from typing import List, Dict, Optional, Union, Any
+from typing import List, Dict, Optional, Any
 
 from app.core.config import settings
 
@@ -20,7 +20,7 @@ class TextInput(BaseModel):
 
 # Base request for Orthography processing
 class OrthographyRequest(BaseModel):
-    model: str = Field(description="Language model to use for processing", default=settings.llm_text_processing_model)
+    model: str = Field(description="Language model to use for processing", default=settings.default_llm_model)
     pages: List[TextInput]
     
     @validator('model')

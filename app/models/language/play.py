@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field, field_validator, model_validator, validator
-from typing import List, Dict, Optional, Union, Any
+from pydantic import BaseModel, Field
+from typing import List, Dict, Optional, Union
 from app.core.config import settings
 
 # 지원되는 연극(대본) 모델 목록 (전역 통일)
@@ -21,7 +21,7 @@ class PageItem(BaseModel):
     texts: List[TextItem]
 
 class PlayRequest(BaseModel):
-    model: Optional[str] = Field(default=settings.llm_text_processing_model, description="Language model to use for processing")
+    model: Optional[str] = Field(default=settings.default_llm_model, description="Language model to use for processing")
     llmText: Optional[List[PageItem]] = Field(None, description="Page-based text format")
     language: Optional[str] = Field(description="Language code", default=settings.language_code[0])
 
@@ -29,7 +29,7 @@ class PlayRequest(BaseModel):
         super().__init__(**data)
         # 모델이 지정되지 않은 경우 중앙 설정 사용
         if not self.model:
-            self.model = settings.llm_text_processing_model
+            self.model = settings.default_llm_model
 
 class PlayResponse(BaseModel):
     state: str
@@ -40,5 +40,5 @@ class PlayResponse(BaseModel):
 
 class SupportedModelsResponse(BaseModel):
     supported_models: List[str] = Field(default=SUPPORTED_PLAY_MODELS, description="지원되는 모델 목록")
-    default_model: str = Field(default=settings.llm_text_processing_model, description="기본 모델")
+    default_model: str = Field(default=settings.default_llm_model, description="기본 모델")
     total_count: int = Field(default=len(SUPPORTED_PLAY_MODELS), description="총 모델 수")

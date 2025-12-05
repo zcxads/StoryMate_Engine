@@ -1,8 +1,4 @@
-import json
-import logging
-import re
-import asyncio
-from typing import Dict, Any, List, Tuple, Optional
+from typing import Dict
 from langsmith.run_helpers import traceable
 from langchain_core.prompts import PromptTemplate
 
@@ -33,7 +29,7 @@ async def detect_language_with_ai(text: str, model_name: str = None) -> Dict[str
     try:
         # 모델이 지정되지 않은 경우 중앙 설정 사용
         if not model_name:
-            model_name = settings.llm_language_detection_model
+            model_name = settings.default_llm_model
 
         logger.info(f"Starting AI language detection for text: '{text[:50]}...' using {model_name}")
 
@@ -160,7 +156,7 @@ async def is_translation_needed_ai(text: str, target_language: str, model_name: 
     try:
         # 모델이 지정되지 않은 경우 중앙 설정 사용
         if not model_name:
-            model_name = settings.llm_language_detection_model
+            model_name = settings.default_llm_model
 
         # AI 언어 감지 수행
         detection_result = await detect_language_with_ai(text, model_name)

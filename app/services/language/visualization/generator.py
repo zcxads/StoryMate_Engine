@@ -4,7 +4,7 @@ import re
 import io
 import pandas as pd
 
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, List
 from app.models.language.visualization import (
     VisualizationRequest,
     VisualizationType,
@@ -20,7 +20,6 @@ from app.prompts.language.visualization import (
 from app.services.language.language_detection.detector import detect_language_with_ai
 from app.prompts.language.visualization.visualization_analysis import get_analysis_prompt
 import base64
-import json
 import boto3
 from datetime import datetime
 
@@ -1294,7 +1293,7 @@ class VisualizationGenerator:
             from app.core.config import settings
             structured_response = await call_llm(
                 prompt=prompt,
-                model=settings.llm_visualization_model
+                model=settings.default_llm_model
             )
 
             # call_llm 응답 처리
@@ -1427,7 +1426,7 @@ class VisualizationGenerator:
         """
         try:
             if not model:
-                model = settings.llm_visualization_model
+                model = settings.default_llm_model
 
             analyses = []
 

@@ -45,7 +45,7 @@ class QuizResponse(BaseModel):
 
 class QuizRequest(BaseModel):
     """텍스트 기반 퀴즈 생성 요청 모델"""
-    model: str = Field(description="Language model to use for processing", default=settings.llm_advanced_analysis_model)
+    model: str = Field(description="Language model to use for processing", default=settings.default_llm_model)
     llmText: List[Dict[str, Any]]
     quizCount: int = Field(
         default=10,

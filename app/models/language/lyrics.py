@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field, field_validator, model_validator, validator
-from typing import List, Dict, Optional, Union, Any
+from pydantic import BaseModel, Field, model_validator, validator
+from typing import List, Dict, Optional, Union
 
 from app.core.config import settings
 
@@ -25,7 +25,7 @@ class PageItem(BaseModel):
     texts: List[TextItem]
 
 class SongLyricsRequest(BaseModel):
-    model: str = Field(description="Language model to use for processing", default=settings.llm_text_processing_model)
+    model: str = Field(description="Language model to use for processing", default=settings.default_llm_model)
     processedLlmText: Optional[List[CharacterContent]] = Field(None, description="Character content format")
     llmText: Optional[List[PageItem]] = Field(None, description="Page-based text format")
     language: Optional[str] = Field(description="Language code", default=settings.language_code[0])

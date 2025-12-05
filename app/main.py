@@ -63,13 +63,11 @@ async def health_check():
             "sse_support": True,
             "ocr_processing": True,
             "speech_to_text": True,
-            "sound_generation": True,
             "quiz_generation": True,
             "lyrics_generation": True,
             "translation": True,
             "integrated_processing": True,
             "main_crawler": True,
-            "ai_character": True,
             "async_explanation": True
         },
         "available_endpoints": [
@@ -83,7 +81,6 @@ async def health_check():
             "/api/v1/tts/jobs/{job_id}/stream - SSE 실시간 스트림",
             "/api/v1/tts/files - 생성된 파일 목록",
             # "/api/v1/tts/download/{filename} - 파일 다운로드",
-            "/api/v1/tts/sample - 샘플 데이터",
             "/api/v1/tts/notifications/stats - 실시간 알림 연결 통계",
             # STT 엔드포인트
             "/api/v1/stt/languages - 지원되는 STT 언어 목록",
@@ -91,7 +88,6 @@ async def health_check():
             "/api/v1/stt/health - STT 서비스 상태 확인",
             # 언어 처리 엔드포인트
             "/api/v1/orthography/ - 텍스트 전처리 및 교정",
-            "/api/v1/sound/ - 사운드 및 배경음악 생성",
             "/api/v1/quiz/ - 퀴즈 생성",
             "/api/v1/lyrics/ - 노래 가사 생성",
             "/api/v1/translation/ - 텍스트 번역",
@@ -99,16 +95,8 @@ async def health_check():
             "/api/v1/summary/ - 책 내용 요약 생성",
             "/api/v1/question/ - 책 내용 기반 추천 질문 생성",
             # 문제 해결 엔드포인트 (개선됨)
-            "/api/v1/explanation/ - 이미지 기반 문제 해결 (동기)",
-            "/api/v1/explanation/generate - 이미지 기반 문제 해결 (비동기)",
-            "/api/v1/explanation/jobs/{job_id} - 작업 상태 조회",
-            "/api/v1/explanation/jobs/{job_id}/stream - 실시간 스트림",
-            "/api/v1/explanation/jobs - 모든 작업 조회",
-            # 고도화된 문제 풀이 엔드포인트
-            "/api/v1/problem-solver/models - 지원되는 AI 모델 목록",
-            "/api/v1/problem-solver/solve - 고도화된 문제 풀이 (단일 문제 검증)",
-            "/api/v1/problem-solver/crop - 문제 이미지 크롭 (확인용)",
-            "/api/v1/problem-solver/health - 고도화된 문제 풀이 서비스 상태",
+            "/api/v1/explanation/ - 이미지 기반 문제 해결",
+            "/api/v1/explanation/similar - 이미지 기반 유사 문제 생성",
             # 손가락 인식 및 문서 읽기 엔드포인트
             "/api/v1/finger-detection/models - 지원되는 AI 모델 목록",
             "/api/v1/finger-detection/analyze - 멀티모드 이미지 분석 (finger_detection | document_reading)",
@@ -116,39 +104,25 @@ async def health_check():
             "/api/v1/finger-detection/convert-to-base64 - 이미지 파일을 Base64로 변환",
             "/api/v1/finger-detection/health - 손가락 인식 및 문서 읽기 서비스 상태",
             # 문서 처리 엔드포인트
-            "/api/v1/search/ - 웹 검색 및 결과 분석",
             "/api/v1/main_crawler/crawl - 웹사이트 본문 내용 크롤링",
             "/api/v1/main_crawler/health - 메인 크롤러 서비스 상태",
-            "/api/v1/all/ - 통합 처리 (Orthography + Sound + Quiz)",
-            # AI 캐릭터 엔드포인트
-            "/api/v1/character/generate - AI 캐릭터 응답 생성",
-            "/api/v1/character/development/analyze - 발달 정도 분석",
-            "/api/v1/character/state/character/{user_id} - 캐릭터 상태 조회",
-            "/api/v1/character/health - 캐릭터 서비스 상태",
             # Song 엔드포인트
             "/api/v1/song/generate - 제목과 가사로 노래 생성",
             "/api/v1/song/health - 노래 서비스 상태",
             # Visualization 엔드포인트
             "/api/v1/visualization/models - 지원되는 시각화 모델 목록",
             "/api/v1/visualization/generate - 문서 시각화 생성",
-            "/api/v1/visualization/extract-text - 파일에서 텍스트 추출",
             # 헬스체크 엔드포인트
             "/api/v1/orthography/health - 텍스트 교정 서비스 상태",
-            "/api/v1/sound/health - 사운드 서비스 상태",
             "/api/v1/quiz/health - 퀴즈 서비스 상태",
             "/api/v1/lyrics/health - 가사 서비스 상태",
             "/api/v1/translation/health - 번역 서비스 상태",
             "/api/v1/language-detection/health - 언어 감지 서비스 상태",
             "/api/v1/summary/health - 요약 서비스 상태",
-            "/api/v1/question/health - 추천 질문 서비스 상태",
             "/api/v1/stt/health - STT 서비스 상태",
             "/api/v1/explanation/health - 문제 해결 서비스 상태",
-            "/api/v1/problem-solver/health - 고도화된 문제 풀이 서비스 상태",
             "/api/v1/finger-detection/health - 손가락 인식 및 문서 읽기 서비스 상태",
-            "/api/v1/search/health - 웹 검색 서비스 상태",
             "/api/v1/main_crawler/health - 메인 크롤러 서비스 상태",
-            "/api/v1/all/health - 통합 서비스 상태",
-            "/api/v1/character/health - AI 캐릭터 서비스 상태",
             "/api/v1/song/health - 노래 서비스 상태",
             "/api/v1/visualization/health - 시각화 서비스 상태"
         ]
@@ -160,7 +134,7 @@ async def startup_event():
     logger.info(f"🚀 {settings.app_name} v{settings.app_version} 시작됨")
     logger.info(f"📁 출력 디렉토리: {settings.output_dir}")
     logger.info(f"📡 실시간 알림 지원: WebSocket + SSE")
-    logger.info(f"🎯 지원 기능: TTS, STT, Orthography, Sound, Quiz, Lyrics, Translation, Language Detection, Summary, Question, Explanation (Async), Problem Solver (Enhanced), Search, Main Crawler, All, Character, Song, Visualization")
+    logger.info(f"🎯 지원 기능: TTS, STT, Orthography, Quiz, Lyrics, Translation, Language Detection, Summary, Explanation, Main Crawler, Song, Visualization")
     
     # 출력 디렉토리 생성
     os.makedirs(settings.output_dir, exist_ok=True)

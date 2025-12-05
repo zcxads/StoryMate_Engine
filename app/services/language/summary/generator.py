@@ -2,7 +2,6 @@
 책 내용 요약 생성 서비스
 """
 
-import logging
 from typing import List, Dict, Any
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser

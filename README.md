@@ -236,8 +236,7 @@ C:\StoryMate\Engine/
 │   │   └── main_crawler/       # 크롤러 프롬프트
 │   │
 │   ├── repositories/            # 외부 API 통합
-│   │   ├── openai_tts.py       # OpenAI TTS 클라이언트
-│   │   └── sound_generator.py  # 사운드 생성 클라이언트
+│   │   └── openai_tts.py       # OpenAI TTS 클라이언트
 │   │
 │   └── utils/                   # 유틸리티 함수
 │       ├── logger/             # 로깅 설정

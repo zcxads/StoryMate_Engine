@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class LanguageModel:
     """기존 호환성을 위한 래퍼 클래스"""
 
-    def __init__(self, preferred: str = "gpt-4o"):
+    def __init__(self, preferred: str):
         self.preferred = preferred
         logger.info(f"LanguageModel initialized with preferred model: {preferred}")
     

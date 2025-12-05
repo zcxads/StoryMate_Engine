@@ -270,7 +270,7 @@ class UnifiedLanguageModel(Runnable):
 class LanguageModel:
     """기존 호환성을 위한 래퍼 클래스"""
     
-    def __init__(self, preferred: str = settings.llm_text_processing_model):
+    def __init__(self, preferred: str = settings.default_llm_model):
         self.preferred = preferred
         logger.info(f"LanguageModel initialized with preferred model: {preferred}")
     

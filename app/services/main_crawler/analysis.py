@@ -1,11 +1,9 @@
 import os
 import time
-import re
 from collections import Counter
 from typing import Dict, Any, List, Tuple
 import boto3
 from datetime import datetime
-import math
 
 from app.core.config import settings
 from app.utils.logger.setup import setup_logger
@@ -124,7 +122,7 @@ class CrawlerAnalysisService:
 
             response = await call_llm(
                 prompt=prompt,
-                model=settings.llm_web_search_model
+                model=settings.default_llm_model
             )
 
             if hasattr(response, 'content'):
@@ -317,7 +315,7 @@ class CrawlerAnalysisService:
 
             response = await call_llm(
                 prompt=prompt,
-                model=settings.llm_web_search_model
+                model=settings.default_llm_model
             )
 
             if hasattr(response, 'content'):

@@ -1,6 +1,5 @@
-from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, List, Dict, Any, Union
-from enum import Enum
+from pydantic import BaseModel, Field
+from typing import Optional, List, Dict, Union
 
 from app.models.language.content_category import Genre
 from app.core.config import settings
@@ -17,7 +16,7 @@ class FingerDetectionRequest(BaseModel):
 
     # LLM 설정
     model: Optional[str] = Field(
-        default=settings.llm_finger_detection_model,
+        default=settings.default_llm_model,
         description="사용할 LLM 모델"
     )
 
@@ -160,7 +159,7 @@ class SupportedFingerDetectionModelsResponse(BaseModel):
     )
     
     default_model: str = Field(
-        default=settings.llm_finger_detection_model,
+        default=settings.default_llm_model,
         description="기본 모델"
     )
     

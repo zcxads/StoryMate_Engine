@@ -6,7 +6,6 @@ import os
 import io
 import base64
 import csv
-from typing import Optional
 import fitz  # PyMuPDF
 import pandas as pd
 from PIL import Image

@@ -19,7 +19,7 @@ class TextInput(BaseModel):
     text: str
 
 class SummaryRequest(BaseModel):
-    model: str = Field(description="Language model to use for processing", default=settings.llm_text_processing_model)
+    model: str = Field(description="Language model to use for processing", default=settings.default_llm_model)
     pages: List[TextInput]
     
     @validator('model')

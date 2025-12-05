@@ -252,23 +252,23 @@ async def process_similar_quiz_workflow_wrapper(request: Union[Dict[str, Any], A
 
     # 요청 데이터 추출
     if isinstance(request, dict):
-        model = request.get("model", settings.llm_advanced_analysis_model)
+        model = request.get("model", settings.default_llm_model)
         problem_image = request.get("problem")
         language = request.get("language")
     else:
-        model = getattr(request, "model", settings.llm_advanced_analysis_model)
+        model = getattr(request, "model", settings.default_llm_model)
         problem_image = getattr(request, "problem")
         language = getattr(request, "language")
 
         # Pydantic 모델인 경우 dict로 변환
         if hasattr(request, 'model_dump'):
             request_dict = request.model_dump()
-            model = request_dict.get("model", settings.llm_advanced_analysis_model)
+            model = request_dict.get("model", settings.default_llm_model)
             problem_image = request_dict.get("problem")
             language = request_dict.get("language")
         elif hasattr(request, 'dict'):
             request_dict = request.dict()
-            model = request_dict.get("model", settings.llm_advanced_analysis_model)
+            model = request_dict.get("model", settings.default_llm_model)
             problem_image = request_dict.get("problem")
             language = request_dict.get("language")
 

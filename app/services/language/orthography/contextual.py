@@ -1,13 +1,11 @@
-import os
 import re
-from typing import List, Any, Dict, Tuple
+from typing import Any, Dict, Tuple
 
 from langsmith.run_helpers import traceable
 
 from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
 
-from app.models.state import get_valid_state, CorrectedPages
+from app.models.state import get_valid_state
 from app.utils.logger.setup import setup_logger
 from app.prompts.language.orthography import get_contextual_prompt_config
 from app.utils.language.generator import language_generator
