@@ -6,7 +6,7 @@ from app.models.language.orthography import (
     SUPPORTED_ORTHOGRAPHY_MODELS
 )
 from app.services.language.workflow.orthography import process_orthography_workflow_wrapper
-from app.core.config import settings
+from app.config import settings
 
 router = APIRouter(prefix="/orthography")
 

@@ -5,7 +5,7 @@ from langchain_core.prompts import PromptTemplate
 from app.utils.logger.setup import setup_logger
 from app.utils.language.generator import language_generator
 from app.prompts.language.language_detection.detector import get_language_detection_prompt_config, get_supported_languages
-from app.core.config import settings
+from app.config import settings
 
 # 로거 설정
 logger = setup_logger('language_detection', 'logs/language')

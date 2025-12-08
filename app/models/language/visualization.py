@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from enum import Enum
 from app.models.language.content_category import Genre
-from app.core.config import settings
+from app.config import settings
 
 class VisualizationType(str, Enum):
     """시각화 유형"""

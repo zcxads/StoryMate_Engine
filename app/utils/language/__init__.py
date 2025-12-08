@@ -10,7 +10,7 @@ from app.utils.language.generator import (
 )
 
 from app.utils.language.interface import LanguageModel
-from app.core.config import settings
+from app.config import settings
 
 # 기본 인스턴스 생성
 default_language_model = LanguageModel(preferred=settings.default_llm_model)

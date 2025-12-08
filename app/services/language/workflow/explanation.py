@@ -12,7 +12,7 @@ from langgraph.graph import StateGraph, END
 from app.models.language.explanation import ExplanationRequest
 from app.services.language.explanation.solver import solve_problem_from_image
 from app.utils.logger.setup import setup_logger
-from app.core.config import settings
+from app.config import settings
 from app.services.language.workflow.base_graph import BaseWorkflowGraph
 from app.prompts.language.quiz.similar_generator import get_similar_quiz_prompt
 from app.utils.language.generator import call_llm

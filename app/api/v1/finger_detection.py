@@ -12,7 +12,7 @@ from app.models.language.finger_detection import (
     SUPPORTED_FINGER_DETECTION_MODELS
 )
 from app.services.language.finger_detection.detector import FingerDetectionService
-from app.core.config import settings
+from app.config import settings
 
 # 로깅 설정
 from app.utils.logger.setup import setup_logger
@@ -47,7 +47,7 @@ async def get_supported_models() -> SupportedFingerDetectionModelsResponse:
     Returns:
         SupportedFingerDetectionModelsResponse: 지원되는 모델 목록과 기본 모델 정보
     """
-    from app.core.config import settings
+    from app.config import settings
     return SupportedFingerDetectionModelsResponse(
         supported_models=SUPPORTED_FINGER_DETECTION_MODELS,
         default_model=settings.default_llm_model,

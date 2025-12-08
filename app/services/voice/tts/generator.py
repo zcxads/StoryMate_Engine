@@ -7,7 +7,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 
 import boto3
-from app.core.config import settings
+from app.config import settings
 from app.models.voice.tts import (
     TTSRequest, SingleTTSRequest, TTSResponse, SingleTTSResponse,
     TTSJobStatus, JobStatusResponse, VoiceListResponse, GenderType,
@@ -18,7 +18,7 @@ import re
 from murf import AsyncMurf
 import base64
 import httpx
-from app.repositories.openai_tts import GeminiTTSRepository, OpenAITTSRepository
+from app.repositories.tts import GeminiTTSRepository, OpenAITTSRepository
 from app.services.voice.tts.notification import notification_service
 from app.utils.process_text import strip_rich_text_tags
 
@@ -349,11 +349,7 @@ class TTSService:
             logger.info(f"   화자 목록: {sorted(unique_speakers)}")
 
         return output
-    
-    async def test_openai_connection(self) -> bool:
-        """OpenAI API 연결 테스트"""
-        return await self.gemini_repo.test_api_connection()
-    
+
     async def generate_single_tts(self, request: SingleTTSRequest) -> SingleTTSResponse:
         """단일 TTS 파일 생성"""
 

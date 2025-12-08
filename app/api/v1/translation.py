@@ -6,7 +6,7 @@ from app.models.language.translation import (
     SUPPORTED_TRANSLATION_MODELS
 )
 from app.services.language.workflow.translation import process_translation_workflow_wrapper
-from app.core.config import settings
+from app.config import settings
 import time
 
 router = APIRouter(prefix="/translation")

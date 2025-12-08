@@ -9,7 +9,7 @@ from app.models.state import get_valid_state
 from app.utils.logger.setup import setup_logger
 from app.prompts.language.orthography import get_contextual_prompt_config
 from app.utils.language.generator import language_generator
-from app.core.config import settings
+from app.config import settings
 
 # 로거 설정
 logger = setup_logger('orthography_contextual', 'logs/orthography')

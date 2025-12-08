@@ -9,7 +9,7 @@ from app.models.main_crawler.web_crawler import (
     SUPPORTED_MAIN_CRAWLER_MODELS,
     SupportedMainCrawlerModelsResponse
 )
-from app.core.config import settings
+from app.config import settings
 from app.utils.logger.setup import setup_logger
 
 logger = setup_logger('main_crawler')

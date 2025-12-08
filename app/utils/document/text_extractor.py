@@ -12,7 +12,7 @@ from PIL import Image
 
 from app.utils.language.generator import call_llm
 from app.utils.logger.setup import setup_logger
-from app.core.config import settings
+from app.config import settings
 
 logger = setup_logger('document_extractor', 'logs/document')
 

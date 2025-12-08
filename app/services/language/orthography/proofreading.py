@@ -10,7 +10,7 @@ from app.utils.logger.setup import setup_logger
 from app.prompts.language.orthography import get_proofreading_prompt_config
 from app.utils.language.generator import language_generator
 from app.services.language.orthography.contextual import filter_ai_generated_comments
-from app.core.config import settings
+from app.config import settings
 
 # 로거 설정
 logger = setup_logger('orthography_proofreading', 'logs/orthography')

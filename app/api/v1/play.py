@@ -6,7 +6,7 @@ from app.models.language.play import (
     SUPPORTED_PLAY_MODELS
 )
 from app.services.language.workflow.play import process_play_workflow_wrapper
-from app.core.config import settings
+from app.config import settings
 from app.utils.logger.setup import setup_logger
 import time
 

@@ -6,7 +6,7 @@ from app.models.language.lyrics import (
     SUPPORTED_LYRICS_MODELS
 )
 from app.services.language.workflow.lyrics import process_lyrics_workflow_wrapper
-from app.core.config import settings
+from app.config import settings
 import time
 
 router = APIRouter(prefix="/lyrics")

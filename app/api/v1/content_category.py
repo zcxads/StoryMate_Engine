@@ -11,7 +11,7 @@ from app.models.language.content_category import (
     SUPPORTED_CONTENT_CATEGORY_MODELS
 )
 from app.services.language.content_category import ContentCategoryAnalyzer
-from app.core.config import settings
+from app.config import settings
 import time
 
 # 로깅 설정

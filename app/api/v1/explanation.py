@@ -11,7 +11,7 @@ from app.services.language.workflow.explanation import (
     process_explanation_workflow_wrapper,
     process_similar_quiz_workflow_wrapper
 )
-from app.core.config import settings
+from app.config import settings
 import time
 
 router = APIRouter(prefix="/explanation")

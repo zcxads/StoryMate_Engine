@@ -2,7 +2,7 @@ import os, asyncio, json, time
 from fastapi import APIRouter, HTTPException, status, WebSocket, WebSocketDisconnect
 from fastapi.responses import StreamingResponse
 
-from app.core.config import settings
+from app.config import settings
 from app.models.voice.tts import (
     TTSRequest, SingleTTSRequest, TTSResponse, SingleTTSResponse,
     JobStatusResponse, VoiceListResponse,

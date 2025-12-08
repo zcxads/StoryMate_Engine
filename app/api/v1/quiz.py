@@ -9,7 +9,7 @@ from app.models.language.quiz import (
 )
 from app.utils.logger.setup import setup_logger
 from app.services.language.workflow.quiz import process_quiz_workflow_wrapper
-from app.core.config import settings
+from app.config import settings
 import time
 
 router = APIRouter(prefix="/quiz")

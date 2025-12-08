@@ -5,7 +5,7 @@ import base64
 from typing import Dict, Any, Optional
 from app.models.language.finger_detection import FingerDetectionRequest
 from app.utils.language.generator import call_llm
-from app.core.config import settings
+from app.config import settings
 from app.utils.logger.setup import setup_logger
 from app.prompts.language.finger_detection.detector import get_finger_detection_prompt
 from app.prompts.language.finger_detection.document_reader import DocumentReadingPrompt

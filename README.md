@@ -176,6 +176,7 @@ C:\StoryMate\Engine/
 │
 ├── app/                          # 메인 애플리케이션 디렉토리
 │   ├── main.py                   # FastAPI 애플리케이션 엔트리포인트
+│   ├── config.py                 # 환경 설정 및 상수
 │   │
 │   ├── api/                      # API 라우터 레이어
 │   │   ├── router.py            # 통합 라우터 설정
@@ -195,10 +196,6 @@ C:\StoryMate\Engine/
 │   │       ├── song.py          # 노래 생성 API
 │   │       ├── language_detection.py # 언어 감지 API
 │   │       └── content_category.py   # 콘텐츠 카테고리 API
-│   │
-│   ├── core/                    # 핵심 설정
-│   │   ├── config.py           # 환경 설정 및 상수
-│   │   └── messages.py         # 메시지 템플릿
 │   │
 │   ├── models/                  # Pydantic 데이터 모델
 │   │   ├── voice/              # 음성 관련 모델 (TTS, STT)
@@ -235,8 +232,14 @@ C:\StoryMate\Engine/
 │   │   │   └── content_category/
 │   │   └── main_crawler/       # 크롤러 프롬프트
 │   │
-│   ├── repositories/            # 외부 API 통합
-│   │   └── openai_tts.py       # OpenAI TTS 클라이언트
+│   ├── repositories/            # 외부 API 통합 레이어
+│   │   ├── tts/                # TTS API 통합
+│   │   │   ├── base.py        # TTS 추상 베이스 클래스
+│   │   │   ├── gemini_tts.py  # Gemini TTS 클라이언트
+│   │   │   ├── openai_tts.py  # OpenAI TTS 클라이언트
+│   │   │   └── utils.py       # TTS 유틸리티 (PCM→MP3 변환 등)
+│   │   └── storage/           # 클라우드 스토리지 통합
+│   │       └── ncp_storage.py # NCP Object Storage 클라이언트
 │   │
 │   └── utils/                   # 유틸리티 함수
 │       ├── logger/             # 로깅 설정

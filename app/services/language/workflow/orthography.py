@@ -4,7 +4,7 @@ from typing import List, Dict, Any, TypedDict
 from langgraph.graph import StateGraph, END
 
 from app.models.state import OrthographyState, Page, PageText
-from app.core.config import settings
+from app.config import settings
 from app.utils.logger.setup import setup_logger
 from app.services.language.orthography.proofreading import proofreading_agent_per_page
 from app.services.language.orthography.contextual import contextual_agent_per_page
