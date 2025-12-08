@@ -4,7 +4,7 @@ from typing import Dict, Any
 from app.utils.logger.setup import setup_logger
 from app.utils.language.generator import call_llm
 from app.prompts.voice.stt.feature_matcher import get_system_prompt
-from app.core.config import settings
+from app.config import settings
 
 logger = setup_logger('feature_matcher')
 

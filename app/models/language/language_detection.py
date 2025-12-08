@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from app.core.config import settings
+from app.config import settings
 
 # 지원되는 언어 감지 모델 목록 (전역 통일)
 SUPPORTED_LANGUAGE_DETECTION_MODELS = [

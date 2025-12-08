@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional, Union
-from app.core.config import settings
+from app.config import settings
 
 # 지원되는 연극(대본) 모델 목록 (전역 통일)
 SUPPORTED_PLAY_MODELS = [

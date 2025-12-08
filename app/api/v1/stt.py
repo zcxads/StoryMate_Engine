@@ -7,7 +7,7 @@ from app.models.voice.stt import (
     SupportedSTTModelsResponse,
     SUPPORTED_STT_MODELS
 )
-from app.core.config import settings
+from app.config import settings
 from app.services.voice.stt.feature_matcher import match_text_to_feature
 from app.utils.logger.setup import setup_logger
 

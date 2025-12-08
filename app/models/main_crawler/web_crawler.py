@@ -1,6 +1,6 @@
 from pydantic import BaseModel, HttpUrl
 from typing import Optional, List
-from app.core.config import settings
+from app.config import settings
 
 # 지원되는 메인 크롤러 모델 목록 (전역 통일)
 SUPPORTED_MAIN_CRAWLER_MODELS = [

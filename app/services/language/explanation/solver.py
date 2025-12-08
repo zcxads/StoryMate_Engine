@@ -9,7 +9,7 @@ from typing import Dict, Any, Optional
 from app.prompts.language.explanation.solver import create_explanation_prompt
 from app.prompts.language.explanation.choice_extractor import create_choice_extraction_prompt
 from app.utils.logger.setup import setup_logger
-from app.core.config import settings
+from app.config import settings
 from app.utils.language.generator import call_llm
 
 # 로거 설정

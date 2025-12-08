@@ -5,7 +5,7 @@ Content Category 분류 모델 정의
 from enum import Enum
 from typing import List, Optional
 from pydantic import BaseModel, Field
-from app.core.config import settings
+from app.config import settings
 
 class Genre(str, Enum):
     """콘텐츠 장르 분류"""

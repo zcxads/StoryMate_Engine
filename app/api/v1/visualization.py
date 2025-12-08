@@ -11,7 +11,7 @@ from app.models.language.visualization import (
     VisualizationCategory,
 )
 from app.services.language.visualization.generator import VisualizationGenerator
-from app.core.config import settings
+from app.config import settings
 from app.utils.logger.setup import setup_logger
 
 logger = setup_logger("visualization_api")
@@ -152,7 +152,7 @@ async def get_supported_models() -> SupportedVisualizationModelsResponse:
     Returns:
         SupportedVisualizationModelsResponse: 지원되는 모델 목록과 기본 모델 정보
     """
-    from app.core.config import settings
+    from app.config import settings
     return SupportedVisualizationModelsResponse(
         supported_models=SUPPORTED_VISUALIZATION_MODELS,
         default_model=settings.default_llm_model,

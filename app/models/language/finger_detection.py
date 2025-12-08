@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Union
 
 from app.models.language.content_category import Genre
-from app.core.config import settings
+from app.config import settings
 
 class FingerDetectionRequest(BaseModel):
     """손가락 가리키기 인식 요청 모델"""

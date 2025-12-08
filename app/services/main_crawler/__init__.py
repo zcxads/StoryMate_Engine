@@ -1,6 +1,6 @@
 """Main Crawler Services - 의존성 주입"""
 from fastapi import HTTPException
-from app.core.config import settings
+from app.config import settings
 from app.services.main_crawler.web_crawler import MainCrawlerAgent
 from app.services.main_crawler.analysis import CrawlerAnalysisService
 

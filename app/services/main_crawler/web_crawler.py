@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 import requests
 
 # 설정 및 프롬프트 템플릿 import
-from app.core.config import settings
+from app.config import settings
 from app.prompts.main_crawler.generator import get_content_extraction_prompt
 from app.services.main_crawler.naver_web_crawler import NaverWebCrawler
 from app.services.language.language_detection.detector import detect_language_with_ai

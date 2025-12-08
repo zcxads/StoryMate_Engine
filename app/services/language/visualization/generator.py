@@ -11,7 +11,7 @@ from app.models.language.visualization import (
     OutputFormat
 )
 from app.utils.language.generator import call_llm
-from app.core.config import settings
+from app.config import settings
 from app.utils.logger.setup import setup_logger
 from app.prompts.language.visualization import (
     get_table_prompt,
@@ -1290,7 +1290,7 @@ class VisualizationGenerator:
             prompt = self._build_table_structuring_prompt(content, content_type, viz_type)
 
             # LLM으로 표/CSV 구조화
-            from app.core.config import settings
+            from app.config import settings
             structured_response = await call_llm(
                 prompt=prompt,
                 model=settings.default_llm_model

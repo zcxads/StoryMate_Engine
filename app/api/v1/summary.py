@@ -6,7 +6,7 @@ from app.models.language.summary import (
     SUPPORTED_SUMMARY_MODELS
 )
 from app.services.language.workflow.summary import process_summary_workflow_wrapper
-from app.core.config import settings
+from app.config import settings
 import time
 
 router = APIRouter(prefix="/summary")

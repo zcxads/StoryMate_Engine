@@ -12,7 +12,7 @@ from langchain_core.messages import HumanMessage, SystemMessage, BaseMessage
 from langchain_core.outputs import LLMResult
 from langchain_core.callbacks import CallbackManagerForLLMRun, AsyncCallbackManagerForLLMRun
 
-from app.core.config import settings
+from app.config import settings
 
 logger = setup_logger('language_generator')
 

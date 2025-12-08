@@ -1,4 +1,4 @@
-from app.core.config import settings
+from app.config import settings
 
 def create_explanation_prompt(language: str) -> str:
     """

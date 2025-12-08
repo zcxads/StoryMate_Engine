@@ -1,7 +1,7 @@
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 from enum import Enum
-from app.core.config import settings
+from app.config import settings
 
 class GenderType(str, Enum):
     """성별 타입"""

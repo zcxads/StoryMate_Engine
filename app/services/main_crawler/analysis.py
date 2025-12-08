@@ -5,7 +5,7 @@ from typing import Dict, Any, List, Tuple
 import boto3
 from datetime import datetime
 
-from app.core.config import settings
+from app.config import settings
 from app.utils.logger.setup import setup_logger
 from app.utils.language.generator import call_llm
 from app.services.language.language_detection.detector import detect_language_with_ai

@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from enum import Enum
 
-from app.core.config import settings
+from app.config import settings
 
 class SupportedSTTLanguage(str, Enum):
     """지원되는 STT 언어 목록"""

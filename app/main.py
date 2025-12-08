@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 import os
 
-from app.core.config import settings
+from app.config import settings
 from app.api.router import get_integrated_router
 # 로깅 설정
 from app.utils.logger.setup import setup_logger

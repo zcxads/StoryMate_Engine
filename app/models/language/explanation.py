@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, validator
 from typing import Optional, List, Dict, Any
 from app.models.language.content_category import Genre
-from app.core.config import settings
+from app.config import settings
 
 # 지원되는 모델 목록 (전역 통일)
 SUPPORTED_EXPLANATION_MODELS = [

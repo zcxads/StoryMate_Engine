@@ -8,7 +8,7 @@ from app.models.language.language_detection import (
 )
 from app.services.language.language_detection.detector import detect_language_with_ai
 from app.prompts.language.language_detection.detector import get_supported_languages
-from app.core.config import settings
+from app.config import settings
 import time
 
 router = APIRouter(prefix="/language-detection")

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, validator
 from typing import List, Optional
 
-from app.core.config import settings
+from app.config import settings
 
 # 지원되는 모델 목록 (전역 통일)
 SUPPORTED_SUMMARY_MODELS = [
